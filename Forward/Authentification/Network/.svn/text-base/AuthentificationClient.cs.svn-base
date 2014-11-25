@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+using Forward.AbstractClass;
+using Forward.Authentification.Manager;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Forward.Authentification.Network
+{
+    public partial class AuthentificationClient : AbstractClient
+    {
+
+        #region Fields
+
+        public string EncrypKey;
+        public AuthentificationHandler Handler;
+        public AuthentificationState State = AuthentificationState.CheckVersion;
+        public Database.Records.AccountRecord Account;
+
+        #endregion
+
+        public AuthentificationClient(SilverSock.SilverSocket socket)
+            : base(socket)
+        {
+            this.Handler = new AuthentificationHandler(this);
+            this.EncrypKey = Utilities.Basic.RandomString(32);
+            Send("HC" + EncrypKey);
+        }
+
+        #region Overrides Methods
+
+        public override void Disconnected()
+        {
+            AuthentificationManager.Server.Clients.Remove(this);
+            Logger.LogInfo("Client disconnected !");
+        }
+
+        public override void DataArrival(byte[] data)
+        {
+            try
+            {
+                string noParsedPacket = Encoding.ASCII.GetString(data);
+                foreach (string packet in noParsedPacket.Replace("\x0a", "").Split('\x00'))
+                {
+                    if (packet == "")
+                        continue;
+                    Logger.LogDebug("Received << " + packet);
+                    Handler.Dispatch(packet);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+        }
+
+        #endregion
+
+    }
+}

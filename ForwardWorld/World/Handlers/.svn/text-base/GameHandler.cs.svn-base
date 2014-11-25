@@ -1,0 +1,180 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+using ForwardWorld.Utilities;
+using ForwardWorld.World;
+using ForwardWorld.World.Network;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers
+{
+    public static class GameHandler
+    {
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("GC", typeof(GameHandler).GetMethod("CreateContext"));
+            Network.Dispatcher.RegisteredMethods.Add("GI", typeof(GameHandler).GetMethod("GameInformationsRequest"));
+            Network.Dispatcher.RegisteredMethods.Add("GA", typeof(GameHandler).GetMethod("GameAction"));
+            Network.Dispatcher.RegisteredMethods.Add("GKE", typeof(GameHandler).GetMethod("RequestChangePath"));
+            Network.Dispatcher.RegisteredMethods.Add("GKK", typeof(GameHandler).GetMethod("EndMove"));
+        }
+
+        public static void GameAction(WorldClient client, string packet)
+        {
+            int Type = int.Parse(packet.Substring(2, 3));
+            string Parameters = packet.Substring(5);
+            switch (Type)
+            {
+                case 1:
+                    RequestMove(client, Parameters);
+                    break;
+
+                case 500://IO Object
+                    ParseIOObjects(client, Parameters);
+                    break;
+            }
+        }
+
+        public static void ParseIOObjects(WorldClient client, string IO)
+        {
+            string[] data = IO.Split(';');
+            switch ((Enums.InteractiveObjectEnum)int.Parse(data[1]))
+            {
+                case Enums.InteractiveObjectEnum.SAVE_POSITION:
+                    ZaapHandler.SavePosition(client, client.Character.MapID);
+                    break;
+
+                case Enums.InteractiveObjectEnum.ZAAP:
+                    ZaapHandler.OnRequestUse(client, int.Parse(data[0]));
+                    break;
+
+                case Enums.InteractiveObjectEnum.INCARNAM_STATUS:
+                    client.State = WorldClientState.OnRequestIncarnamStatue;
+                    break;
+            }
+        }
+
+        public static void RequestChangePath(WorldClient client, string packet)
+        {
+            client.Character.CellID = int.Parse(packet.Substring(5));
+        }
+
+        public static void RequestMove(WorldClient client, string packet)
+        {
+            if (!client.Action.IsOverPod)
+            {
+                Engines.Pathfinding pathfinding = new Engines.Pathfinding(packet, client.Character.Map,
+                                                                        client.Character.CellID, client.Character.Direction);
+
+                string remakePath = pathfinding.GetStartPath + pathfinding.RemakePath();
+                client.Character.Direction = pathfinding.NewDirection;
+                client.Character.NextMove = pathfinding.Destination;
+
+                client.Character.Map.Engine.Send("GA0;1;" + client.Character.ID + ";" + remakePath);
+
+                client.State = WorldClientState.OnMove;
+            }
+            else
+            {
+                client.SendImPacket("112");
+                client.Send("GA;0");
+            }
+        }
+
+        public static void EndMove(WorldClient client, string packet)
+        {
+            client.Character.CellID = client.Character.NextMove;
+            if (client.Character.Map.Triggers.FindAll(x => x.CellID == client.Character.CellID).Count > 0)
+            {
+                Database.Records.TriggerRecord trigger = client.Character.Map.Triggers.FirstOrDefault(x => x.CellID == client.Character.CellID);
+                World.Network.World.GoToMap(client, trigger.NextMap, trigger.NextCell);
+            }
+            if (client.State == WorldClientState.OnRequestZaap)
+            {
+                if (client.Character.Map.Engine.Zaap != null)
+                {
+                    if (client.Character.CellID == client.Character.Map.Engine.Zaap.CellID)
+                    {
+                        ZaapHandler.OpenZaapPanel(client);
+                    }
+                }
+            }
+            if (client.State == WorldClientState.OnRequestIncarnamStatue)
+            {
+                Database.Records.IncarnamTeleportRecord incarnamTP = Helper.MapHelper.FindIncarnamTeleporter(client.Character.MapID);
+                if (incarnamTP != null)
+                {
+                    if (incarnamTP.CellID == client.Character.CellID)
+                    {
+                        if (incarnamTP.MaxLevel > client.Character.Level)
+                        {
+                            Database.Records.OriginalBreedStartMapRecord startmap = Helper.MapHelper.GetOriginalBreedStartMap(client.Character.Breed);
+                            Network.World.GoToMap(client, startmap.MapID, startmap.CellID);             
+                        }
+                        else
+                        {
+                            client.SendImPacket("13");
+                        }
+                        client.State = WorldClientState.None;
+                    }
+                }
+            }
+            client.State = WorldClientState.None;
+        }
+
+        public static void CreateContext(WorldClient client, string packet)
+        {
+            int contextType = int.Parse(packet.Substring(2));
+            switch (contextType)
+            {
+                case 1://Roleplay
+                    client.Send("GCK|1|" + client.Character.Nickname);
+                    client.Send("cC+*#$pi:?");
+                    client.Send("AR6bk");
+                    if (client.State == WorldClientState.SelectCharacter)
+                    {
+                        World.Network.World.GoToMap(client, client.Character.Map, client.Character.CellID, true);
+                        if (ConfigurationManager.GetBoolValue("ShowOfficialDofusMessage"))
+                        {
+                            client.SendImPacket("189");
+                        }
+                        client.SendImPacket("0152", "?~?~?~?~?~127.0.0.1");//TODO! Last connection message
+                        if (ConfigurationManager.GetBoolValue("WelcomeMessageEnabled"))
+                        {
+                            client.Action.BasicMessage(ConfigurationManager.GetStringValue("WelcomeMessage"), 
+                                                            ConfigurationManager.GetStringValue("WelcomeMessageColor"));
+                        }
+                        client.State = WorldClientState.None;
+                        client.Character.Stats.RefreshStats();
+                        client.Action.RefreshPods();
+                        FriendHandler.WarnConnectionToFriends(client);
+                        client.Send("SLo+");
+                        client.Character.Spells.SendSpells();
+                    }                 
+                    break;
+            }
+        }
+
+        public static void GameInformationsRequest(WorldClient client, string packet)
+        {
+            client.Character.Map.Engine.Players.ShowPlayers(client);
+            client.Character.Map.Engine.ShowNpcsOnMap(client);
+            Database.Records.ZaapRecord zaap = Helper.ZaapHelper.GetZaap(client.Character.Map.ID);
+            if (zaap != null)
+            {
+                if (!client.Character.Zaaps.Contains(zaap.MapID))
+                {
+                    client.Character.Zaaps.Add(zaap.MapID);
+                    client.SendImPacket("024");
+                }
+            }
+            client.Send("GDK");
+        }
+    }
+}

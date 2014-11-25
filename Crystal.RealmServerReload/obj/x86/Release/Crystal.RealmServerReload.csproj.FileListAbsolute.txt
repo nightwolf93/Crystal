@@ -1,0 +1,10 @@
+E:\Emulateur\Forward\trunk\Crystal.RealmServerReload\bin\Release\Crystal.RealmServerReload.exe
+E:\Emulateur\Forward\trunk\Crystal.RealmServerReload\bin\Release\Crystal.RealmServerReload.pdb
+E:\Emulateur\Forward\trunk\Crystal.RealmServerReload\obj\x86\Release\Crystal.RealmServerReload.exe
+E:\Emulateur\Forward\trunk\Crystal.RealmServerReload\obj\x86\Release\Crystal.RealmServerReload.pdb
+E:\Emulateur\Forward\trunk\Crystal.RealmServerReload\obj\x86\Release\Crystal.RealmServerReload.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Crystal.RealmServerReload\bin\Release\Crystal.RealmServerReload.exe
+G:\Emulateur\Forward\trunk\Crystal.RealmServerReload\bin\Release\Crystal.RealmServerReload.pdb
+G:\Emulateur\Forward\trunk\Crystal.RealmServerReload\obj\x86\Release\Crystal.RealmServerReload.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Crystal.RealmServerReload\obj\x86\Release\Crystal.RealmServerReload.exe
+G:\Emulateur\Forward\trunk\Crystal.RealmServerReload\obj\x86\Release\Crystal.RealmServerReload.pdb

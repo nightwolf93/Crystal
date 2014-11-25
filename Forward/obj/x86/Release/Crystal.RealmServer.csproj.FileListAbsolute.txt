@@ -1,0 +1,15 @@
+C:\Users\NightWolf\Desktop\Developpement\Forward\Realm\Crystal - RealmServer.exe.config
+C:\Users\NightWolf\Desktop\Developpement\Forward\Realm\Crystal - RealmServer.exe
+C:\Users\NightWolf\Desktop\Developpement\Forward\Realm\Crystal - RealmServer.pdb
+E:\Emulateur\Forward\trunk\Forward\obj\x86\Release\Crystal - RealmServer.exe
+E:\Emulateur\Forward\trunk\Forward\obj\x86\Release\Crystal - RealmServer.pdb
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Realm\Crystal - RealmServer.exe.config
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Realm\Crystal - RealmServer.exe
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Realm\Crystal - RealmServer.pdb
+E:\Emulateur\Forward\trunk\Forward\obj\x86\Release\Crystal.RealmServer.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Forward\obj\x86\Release\Crystal.RealmServer.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Forward\obj\x86\Release\Crystal - RealmServer.exe
+G:\Emulateur\Forward\trunk\Forward\obj\x86\Release\Crystal - RealmServer.pdb
+E:\Developpement\Crystal\Realm\Crystal - RealmServer.exe.config
+E:\Developpement\Crystal\Realm\Crystal - RealmServer.exe
+E:\Developpement\Crystal\Realm\Crystal - RealmServer.pdb

@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{008D7541-00F4-45FF-9ABC-8B6360730691}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Crystal.WorldServer</RootNamespace>
+    <AssemblyName>Crystal - WorldServer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>F:\Developpement\Crystal\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>E:\Developpement\Crystal\Game\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>boite-verre-icone-7988.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Crystal.WorldServer.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Alchemy">
+      <HintPath>..\packages\Alchemy.2.2.1\lib\net40\Alchemy.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>..\Forward\bin\Release\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.Validator">
+      <HintPath>..\Forward\bin\Release\Castle.Components.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\Forward\bin\Release\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\Forward\bin\Release\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Nicolas\Desktop\Developpement\IronPython-2.7.3\IronPython.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython.Modules, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Nicolas\Desktop\Developpement\IronPython-2.7.3\IronPython.Modules.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Nicolas\Desktop\Developpement\IronPython-2.7.3\Microsoft.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Nicolas\Desktop\Developpement\IronPython-2.7.3\Microsoft.Scripting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.AspNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Nicolas\Desktop\Developpement\IronPython-2.7.3\Microsoft.Scripting.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Nicolas\Desktop\Developpement\IronPython-2.7.3\Microsoft.Scripting.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\Forward\bin\Release\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\Forward\bin\Release\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\Forward\bin\Release\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Search">
+      <HintPath>..\Forward\bin\Release\NHibernate.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="SilverSock, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\NightWolf\Desktop\Developpement\SilverSock.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Zivsoft.Log">
+      <HintPath>..\Forward\bin\Release\Zivsoft.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Arkalia\ArkaliaAPI.cs" />
+    <Compile Include="Communication\Rcon\RConClient.cs" />
+    <Compile Include="Communication\Rcon\RConManager.cs" />
+    <Compile Include="Communication\Rcon\RConServer.cs" />
+    <Compile Include="Communication\Realm\Packet\ClientInfosPacket.cs" />
+    <Compile Include="Communication\Realm\Packet\ClientShopPointUpdateMessage.cs" />
+    <Compile Include="Database\Cache\AuctionHouseCache.cs" />
+    <Compile Include="Database\Cache\AuctionHouseItemsCache.cs" />
+    <Compile Include="Database\Cache\ItemBagCache.cs" />
+    <Compile Include="Database\Records\AuctionHouseItemRecord.cs" />
+    <Compile Include="Database\Records\AuctionHouseRecord.cs" />
+    <Compile Include="Database\Records\ItemBagRecord.cs" />
+    <Compile Include="Engines\Cell.cs" />
+    <Compile Include="Engines\Pathfinder\PathfindingV2.cs" />
+    <Compile Include="Forms\ControlerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ControlerForm.Designer.cs">
+      <DependentUpon>ControlerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Cache\BannedAccountCache.cs" />
+    <Compile Include="Database\Cache\BreedCache.cs" />
+    <Compile Include="Database\Cache\CraftCache.cs" />
+    <Compile Include="Database\Cache\DropCache.cs" />
+    <Compile Include="Database\Cache\DungeonRoomCache.cs" />
+    <Compile Include="Database\Cache\ElitesCache.cs" />
+    <Compile Include="Database\Cache\GuildCache.cs" />
+    <Compile Include="Database\Cache\HotelCache.cs" />
+    <Compile Include="Database\Cache\IODataCache.cs" />
+    <Compile Include="Database\Cache\ItemSetCache.cs" />
+    <Compile Include="Database\Cache\JobDataCache.cs" />
+    <Compile Include="Database\Cache\MountTemplateCache.cs" />
+    <Compile Include="Database\Cache\PaddockCache.cs" />
+    <Compile Include="Database\Cache\ShopItemCache.cs" />
+    <Compile Include="Database\Cache\SpellCache.cs" />
+    <Compile Include="Database\Cache\WorldMountCache.cs" />
+    <Compile Include="Database\Records\BannedAccountRecord.cs" />
+    <Compile Include="Database\Records\BreedRecord.cs" />
+    <Compile Include="Database\Records\CraftRecord.cs" />
+    <Compile Include="Database\Records\DropRecord.cs" />
+    <Compile Include="Database\Records\DungeonRoomRecord.cs" />
+    <Compile Include="Database\Records\ElitesRecord.cs" />
+    <Compile Include="Database\Records\GuildRecord.cs" />
+    <Compile Include="Database\Records\HotelRecord.cs" />
+    <Compile Include="Database\Records\IODataRecord.cs" />
+    <Compile Include="Database\Records\ItemSetRecord.cs" />
+    <Compile Include="Database\Records\JobDataRecord.cs" />
+    <Compile Include="Database\Records\LiveActionRecord.cs" />
+    <Compile Include="Database\Records\MountTemplateRecord.cs" />
+    <Compile Include="Database\Records\PaddockRecord.cs" />
+    <Compile Include="Database\Records\ServerInfoRecord.cs" />
+    <Compile Include="Database\Records\ShopItemRecord.cs" />
+    <Compile Include="Database\Records\SpellRecord.cs" />
+    <Compile Include="Database\Records\WorldMountRecord.cs" />
+    <Compile Include="Engines\BreedFloorEngine.cs" />
+    <Compile Include="Engines\Breeds\StatFloor.cs" />
+    <Compile Include="Engines\FactionEngine.cs" />
+    <Compile Include="Engines\MountStatsEngine.cs" />
+    <Compile Include="Engines\PathFactory.cs" />
+    <Compile Include="Engines\SpellEngine.cs" />
+    <Compile Include="Engines\Spells\SpellBuff.cs" />
+    <Compile Include="Engines\Spells\SpellEffect.cs" />
+    <Compile Include="Engines\Spells\SpellLevel.cs" />
+    <Compile Include="Engines\Spells\SpellTarget.cs" />
+    <Compile Include="Engines\Stats\MountStat.cs" />
+    <Compile Include="Enums\ChallengesTypeID.cs" />
+    <Compile Include="Enums\FactionTypeEnum.cs" />
+    <Compile Include="Enums\FightTrapType.cs" />
+    <Compile Include="Enums\SpellsEffects.cs" />
+    <Compile Include="Enums\SpellTypeEnum.cs" />
+    <Compile Include="Forms\PlayersListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PlayersListForm.Designer.cs">
+      <DependentUpon>PlayersListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Globalization\I18nManager.cs" />
+    <Compile Include="Graphics\GraphicManager.cs" />
+    <Compile Include="Interop\Cache\PersistCache.cs" />
+    <Compile Include="Interop\ChatColorConst.cs" />
+    <Compile Include="Interop\Plugins\Interfaces\IPlayer.cs" />
+    <Compile Include="Interop\Plugins\InteropClass\OutputLog.cs" />
+    <Compile Include="Interop\PythonScripting\PyScript.cs" />
+    <Compile Include="Interop\PythonScripting\PyScriptPlatform.cs" />
+    <Compile Include="Interop\PythonScripting\ScriptManager.cs" />
+    <Compile Include="Interop\StartArgsManager.cs" />
+    <Compile Include="Security\LicenceManager.cs" />
+    <Compile Include="Communication\NightWorld\NightWorldManager.cs" />
+    <Compile Include="Updater\UpdaterManager.cs" />
+    <Compile Include="Utilities\Base36.cs" />
+    <Compile Include="Utilities\BasicLogger.cs" />
+    <Compile Include="Utilities\ConsoleStyle.cs" />
+    <Compile Include="Utilities\Delayer.cs" />
+    <Compile Include="Utilities\IniSetting.cs" />
+    <Compile Include="World\Game\Admin\AdminRank.cs" />
+    <Compile Include="World\Game\Admin\AdminRankManager.cs" />
+    <Compile Include="World\Game\AuctionHouses\AuctionHouseManager.cs" />
+    <Compile Include="World\Game\AuctionHouses\AuctionHousePriceArray.cs" />
+    <Compile Include="World\Game\Commands\AbstactCommand.cs" />
+    <Compile Include="World\Game\Commands\CommandsManager.cs" />
+    <Compile Include="World\Game\Commands\ScriptCommand.cs" />
+    <Compile Include="World\Game\ConsoleAPI\ConsoleAPI.cs" />
+    <Compile Include="World\Game\Dialogs\DialogsManager.cs" />
+    <Compile Include="World\Game\Elite\EliteManager.cs" />
+    <Compile Include="World\Game\Exchange\Bank.cs" />
+    <Compile Include="World\Game\Exchange\ExchangeItem.cs" />
+    <Compile Include="World\Game\Exchange\ExchangeRestrictions.cs" />
+    <Compile Include="World\Game\Exchange\PlayerExchange.cs" />
+    <Compile Include="World\Game\Fights\AI\AdvancedAI.cs" />
+    <Compile Include="World\Game\Fights\AI\BasicAI.cs" />
+    <Compile Include="World\Game\Fights\AI\FearfulAI.cs" />
+    <Compile Include="World\Game\Fights\AI\ScriptedAI.cs" />
+    <Compile Include="World\Game\Fights\AI\StaticAI.cs" />
+    <Compile Include="World\Game\Fights\AI\MonsterAI.cs" />
+    <Compile Include="World\Game\Fights\Challenges\FightChallenge.cs" />
+    <Compile Include="World\Game\Fights\Challenges\FirstKillChallenge.cs" />
+    <Compile Include="World\Game\Fights\Challenges\HealChallenge.cs" />
+    <Compile Include="World\Game\Fights\Challenges\NomadeChallenge.cs" />
+    <Compile Include="World\Game\Fights\Challenges\ZombieChallenge.cs" />
+    <Compile Include="World\Game\Fights\FightShield.cs" />
+    <Compile Include="World\Game\Fights\FightDrops.cs" />
+    <Compile Include="World\Game\Fights\FighterState.cs" />
+    <Compile Include="World\Game\Fights\FightRestrictions.cs" />
+    <Compile Include="World\Game\Fights\FightSpectator.cs" />
+    <Compile Include="World\Game\Fights\FightSpellCooldown.cs" />
+    <Compile Include="World\Game\Fights\FightSpellEffects.cs" />
+    <Compile Include="World\Game\Fights\FightTrap.cs" />
+    <Compile Include="World\Game\GroupFinder\GroupFinderManager.cs" />
+    <Compile Include="World\Game\Guilds\GuildRightsConstants.cs" />
+    <Compile Include="World\Game\Hardcore\HardcoreManager.cs" />
+    <Compile Include="World\Game\Hotel\HotelManager.cs" />
+    <Compile Include="World\Game\Idle\IdleManager.cs" />
+    <Compile Include="World\Game\IO\InteractiveObject.cs" />
+    <Compile Include="World\Game\IO\InteractiveObjectHelper.cs" />
+    <Compile Include="World\Game\IO\InteractiveObjectState.cs" />
+    <Compile Include="World\Game\Items\ItemBag.cs" />
+    <Compile Include="World\Game\Items\MagicalForge.cs" />
+    <Compile Include="World\Game\Jobs\JobCraftSkill.cs" />
+    <Compile Include="World\Game\Jobs\JobType\Alchemist.cs" />
+    <Compile Include="World\Game\Jobs\JobHelper.cs" />
+    <Compile Include="World\Game\Jobs\JobSkill.cs" />
+    <Compile Include="World\Game\Jobs\JobType\Baker.cs" />
+    <Compile Include="World\Game\Jobs\JobType\Lumberjack.cs" />
+    <Compile Include="World\Game\Jobs\JobType\Tailor.cs" />
+    <Compile Include="World\Game\Kolizeum\KolizeumManager.cs" />
+    <Compile Include="World\Game\Kolizeum\KolizeumMap.cs" />
+    <Compile Include="World\Game\Kolizeum\KolizeumMatch.cs" />
+    <Compile Include="World\Game\Kolizeum\KolizeumTeam.cs" />
+    <Compile Include="World\Game\LiveActions\LiveActionManager.cs" />
+    <Compile Include="World\Game\Marketplaces\MarketPlace.cs" />
+    <Compile Include="World\Game\Mounts\MountFactory.cs" />
+    <Compile Include="World\Game\Mounts\PaddockManager.cs" />
+    <Compile Include="World\Game\Ads\AdsManager.cs" />
+    <Compile Include="World\Game\Pools\PoolManager.cs" />
+    <Compile Include="World\Game\Pvp\PvpManager.cs" />
+    <Compile Include="World\Game\Reporting\ReportingManager.cs" />
+    <Compile Include="World\Game\Sets\ItemManager.cs" />
+    <Compile Include="World\Game\Shop\ShopManager.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddAgilityBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddArmorBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddChatiment.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddCriticalBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddFireBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddLuckEcaflipBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddPABuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddLifeBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddPercentDamage.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddFixDamage.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddPMBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddPOBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddReverseDamage.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddReverseSpellBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddStrenghtBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\AddWaterBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\ChangeSkinBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\InvisibleBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\SaoulBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\SubPABuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\SubPMBuff.cs" />
+    <Compile Include="World\Game\Spells\Buffs\SubPOBuff.cs" />
+    <Compile Include="World\Game\Tickets\TicketsManager.cs" />
+    <Compile Include="World\Handlers\EmoteHandler.cs" />
+    <Compile Include="World\Handlers\MountHandler.cs" />
+    <Compile Include="World\Helper\BreedHelper.cs" />
+    <Compile Include="World\Helper\DungeonRoomHelper.cs" />
+    <Compile Include="World\Helper\MountHelper.cs" />
+    <Compile Include="World\Helper\PaddockHelper.cs" />
+    <Compile Include="World\Helper\ShopHelper.cs" />
+    <Compile Include="World\Helper\SpellHelper.cs" />
+    <Compile Include="World\Network\AbstractClass\AbstractClient.cs" />
+    <Compile Include="World\Network\AbstractClass\AbstractServer.cs" />
+    <Compile Include="Communication\Protocol\ForwardPacket.cs" />
+    <Compile Include="Communication\Protocol\ForwardPacketTypeEnum.cs" />
+    <Compile Include="Communication\Realm\CommunicationServer.cs" />
+    <Compile Include="Communication\Realm\Communicator.cs" />
+    <Compile Include="Communication\Realm\Packet\HelloKeyMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerConnectedMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerCreatedCharacterMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerDeletedCharacterMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerDisconnectedMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldMaintenance.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldMaintenanceFinished.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldSave.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldSaveFinished.cs" />
+    <Compile Include="Communication\Realm\RealmLink.cs" />
+    <Compile Include="Database\Cache\AccountDataCache.cs" />
+    <Compile Include="Database\Cache\BaseSpellCache.cs" />
+    <Compile Include="Database\Cache\CharacterCache.cs" />
+    <Compile Include="Database\Cache\ExpFloorCache.cs" />
+    <Compile Include="Database\Cache\GuildCreatorLocationCache.cs" />
+    <Compile Include="Database\Cache\IncarnamTeleporterCache.cs" />
+    <Compile Include="Database\Cache\ItemCache.cs" />
+    <Compile Include="Database\Cache\MapCache.cs" />
+    <Compile Include="Database\Cache\MonsterLevelCache.cs" />
+    <Compile Include="Database\Cache\MonstersTemplateCache.cs" />
+    <Compile Include="Database\Cache\NpcCache.cs" />
+    <Compile Include="Database\Cache\NpcDialogCache.cs" />
+    <Compile Include="Database\Cache\NpcPositionCache.cs" />
+    <Compile Include="Database\Cache\OriginalBreedStartMapCache.cs" />
+    <Compile Include="Database\Cache\TriggerCache.cs" />
+    <Compile Include="Database\Cache\WorldItemCache.cs" />
+    <Compile Include="Database\Cache\ZaapCache.cs" />
+    <Compile Include="Database\Manager\DatabaseManager.cs" />
+    <Compile Include="Database\Records\AccountDataRecord.cs" />
+    <Compile Include="Database\Records\AccountRecord.cs" />
+    <Compile Include="Database\Records\BaseSpellRecord.cs" />
+    <Compile Include="Database\Records\CharacterRecord.cs" />
+    <Compile Include="Database\Records\ExpFloorRecord.cs" />
+    <Compile Include="Database\Records\GuildCreatorLocationRecord.cs" />
+    <Compile Include="Database\Records\IncarnamTeleportRecord.cs" />
+    <Compile Include="Database\Records\ItemRecord.cs" />
+    <Compile Include="Database\Records\MapRecords.cs" />
+    <Compile Include="Database\Records\MonsterLevelRecord.cs" />
+    <Compile Include="Database\Records\MonstersTemplateRecord.cs" />
+    <Compile Include="Database\Records\NpcDialogRecord.cs" />
+    <Compile Include="Database\Records\NpcPositionRecord.cs" />
+    <Compile Include="Database\Records\NpcRecord.cs" />
+    <Compile Include="Database\Records\OriginalBreedStartMapRecord.cs" />
+    <Compile Include="Database\Records\TriggerRecord.cs" />
+    <Compile Include="Database\Records\WorldItemRecord.cs" />
+    <Compile Include="Database\Records\ZaapRecord.cs" />
+    <Compile Include="Engines\ItemEngine.cs" />
+    <Compile Include="Engines\MapEngine.cs" />
+    <Compile Include="Engines\Map\MonsterGroup.cs" />
+    <Compile Include="Engines\Map\PlayersMapEngine.cs" />
+    <Compile Include="Engines\Map\SpawnerEngine.cs" />
+    <Compile Include="Engines\PartyEngine.cs" />
+    <Compile Include="Engines\Pathfinding.cs" />
+    <Compile Include="Engines\SpellBook.cs" />
+    <Compile Include="Engines\StatsEngine.cs" />
+    <Compile Include="Engines\Stats\SingleStats.cs" />
+    <Compile Include="Enums\CellTypeConstants.cs" />
+    <Compile Include="Enums\ChannelEnum.cs" />
+    <Compile Include="Enums\ExchangeTypeEnum.cs" />
+    <Compile Include="Enums\FightTypeEnum.cs" />
+    <Compile Include="Enums\InteractiveObjectEnum.cs" />
+    <Compile Include="Enums\ItemEffectEnum.cs" />
+    <Compile Include="Enums\ItemPositionConstants.cs" />
+    <Compile Include="Enums\JobsIDEnums.cs" />
+    <Compile Include="Enums\StatsTypeEnum.cs" />
+    <Compile Include="Interop\Scripting\Script.cs" />
+    <Compile Include="Interop\Scripting\ScriptArgs.cs" />
+    <Compile Include="Interop\Scripting\ScriptManager.cs" />
+    <Compile Include="Patterns\CharacterPattern.cs" />
+    <Compile Include="Patterns\NpcPattern.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Basic.cs" />
+    <Compile Include="Utilities\ConfigurationManager.cs" />
+    <Compile Include="Utilities\SerializerManager.cs" />
+    <Compile Include="Utilities\Singleton.cs" />
+    <Compile Include="World\Game\Fights\Fight.cs" />
+    <Compile Include="World\Game\Fights\Fighter.cs" />
+    <Compile Include="World\Game\Fights\FightTeam.cs" />
+    <Compile Include="World\Game\Fights\FightTimeline.cs" />
+    <Compile Include="World\Game\Guilds\GuildMember.cs" />
+    <Compile Include="World\Game\Guilds\GuildRank.cs" />
+    <Compile Include="World\Game\Jobs\Job.cs" />
+    <Compile Include="World\Game\Jobs\JobManager.cs" />
+    <Compile Include="World\Game\Jobs\JobType\Paysan.cs" />
+    <Compile Include="World\Game\Spells\WorldSpell.cs" />
+    <Compile Include="World\Handlers\AccountHandler.cs" />
+    <Compile Include="World\Handlers\BasicHandler.cs" />
+    <Compile Include="World\Handlers\DialogHandler.cs" />
+    <Compile Include="World\Handlers\EnemiesHandler.cs" />
+    <Compile Include="World\Handlers\ExchangeHandler.cs" />
+    <Compile Include="World\Handlers\FightHandler.cs" />
+    <Compile Include="World\Handlers\FriendHandler.cs" />
+    <Compile Include="World\Handlers\GameHandler.cs" />
+    <Compile Include="World\Handlers\GuildHandler.cs" />
+    <Compile Include="World\Game\Guilds\Guild.cs" />
+    <Compile Include="World\Game\Guilds\GuildEmblem.cs" />
+    <Compile Include="World\Game\Items\Des.cs" />
+    <Compile Include="World\Game\Items\Effect.cs" />
+    <Compile Include="World\Handlers\PartyHandler.cs" />
+    <Compile Include="World\Handlers\NpcHandler.cs" />
+    <Compile Include="World\Handlers\SpellHandler.cs" />
+    <Compile Include="World\Handlers\ZaapHandler.cs" />
+    <Compile Include="World\Helper\AccountHelper.cs" />
+    <Compile Include="World\Helper\ExpFloorHelper.cs" />
+    <Compile Include="World\Helper\GuildHelper.cs" />
+    <Compile Include="World\Helper\ItemHelper.cs" />
+    <Compile Include="World\Helper\MapHelper.cs" />
+    <Compile Include="World\Handlers\ItemHandler.cs" />
+    <Compile Include="World\Helper\MonsterHelper.cs" />
+    <Compile Include="World\Helper\NpcHelper.cs" />
+    <Compile Include="World\Helper\WorldHelper.cs" />
+    <Compile Include="World\Helper\ZaapHelper.cs" />
+    <Compile Include="World\Manager\WorldManager.cs" />
+    <Compile Include="World\Network\Dispatcher.cs" />
+    <Compile Include="World\Network\World.cs" />
+    <Compile Include="World\Network\WorldClient.cs" />
+    <Compile Include="World\Network\WorldClientState.cs" />
+    <Compile Include="World\Network\WorldPlayer.cs" />
+    <Compile Include="World\Network\WorldServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="boite-verre-icone-7988.ico" />
+    <Content Include="icone_radiation.ico" />
+    <Content Include="topaze.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engines\Item\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Forward.Addons\Crystal.Addons.csproj">
+      <Project>{3D503E97-881A-455C-8038-F834DC843A7C}</Project>
+      <Name>Crystal.Addons</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forward.i18n\Crystal.i18n.csproj">
+      <Project>{C560DB47-85E4-4D59-B848-31653D452DEC}</Project>
+      <Name>Crystal.i18n</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 et x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\ControlerForm.resx">
+      <DependentUpon>ControlerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PlayersListForm.resx">
+      <DependentUpon>PlayersListForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,5 @@
+E:\Emulateur\Forward\trunk\Forward.Addons\bin\Debug\Crystal.Addons.dll
+E:\Emulateur\Forward\trunk\Forward.Addons\bin\Debug\Crystal.Addons.pdb
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Debug\Crystal.Addons.dll
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Debug\Crystal.Addons.pdb
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Debug\ResolveAssemblyReference.cache

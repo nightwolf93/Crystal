@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Patterns
+{
+    public class CharacterPattern
+    {
+        private Database.Records.CharacterRecord _character;
+
+        public CharacterPattern(Database.Records.CharacterRecord character)
+        {
+            this._character = character;
+        }
+
+        public string ShowCharacterOnMap
+        {
+            get
+            {
+                StringBuilder pattern = new StringBuilder();
+                pattern.Append(_character.CellID).Append(";").Append(_character.Direction).Append(";0;").Append(_character.ID).Append(";")
+                    .Append(_character.Nickname).Append(";1;").Append(_character.Look).Append("^").Append(_character.Scal).Append(";")
+                    .Append(_character.Gender).Append(";0,0,0,").Append((_character.ID + _character.Level).ToString()).Append(";")
+                    .Append(_character.Color1.ToString("x")).Append(";").Append(_character.Color2.ToString("x")).Append(";")
+                    .Append(_character.Color3.ToString("x")).Append(";")
+                    .Append(_character.Items.DisplayItem()).Append(";" + Aura + ";;;;0;;");
+                return pattern.ToString();
+            }
+        }
+
+        public string ShowCharacterInParty
+        {
+            get
+            {
+                StringBuilder pattern = new StringBuilder();
+                pattern.Append(_character.ID).Append(";").Append(_character.Nickname).Append(";").Append(_character.Look).Append(";")
+                    .Append(_character.Color1.ToString("x")).Append(";").Append(_character.Color2.ToString("x")).Append(";")
+                    .Append(_character.Color3.ToString("x")).Append(";").Append(_character.Items.DisplayItem()).Append(";").Append(_character.CurrentLife)
+                    .Append(",").Append(_character.Stats.MaxLife).Append(";").Append(_character.Level).Append(";")
+                    .Append("0;0;0");
+                return pattern.ToString();
+            }
+        }
+
+        public int Aura
+        {
+            get
+            {
+                if (_character.Level >= 100)
+                {
+                    if (Utilities.ConfigurationManager.GetBoolValue("EnableAura"))
+                    {
+                        if (_character.Level >= 200)
+                        {
+                            return 2;
+                        }
+                        else
+                        {
+                            return 1;
+                        }
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        public string CharacterStats
+        {
+            get
+            {
+                StringBuilder pattern = new StringBuilder();
+                pattern.Append(_character.Experience + "," + _character.ExpFloor.Character + ",");//TODO: Exp !
+                pattern.Append(World.Helper.ExpFloorHelper.GetNextCharactersLevelFloor(_character.Level) == null ? "-1" : World.Helper.ExpFloorHelper.GetNextCharactersLevelFloor(_character.Level).Character.ToString());
+                pattern.Append("|" + _character.Kamas + "|" + _character.CaractPoint + "|" + _character.SpellPoint);
+                pattern.Append("|0~0,0,0,0,0,0");
+                pattern.Append("|" + _character.CurrentLife + "," + _character.Stats.MaxLife);
+                pattern.Append("|10000,10000");
+                pattern.Append("|0|0");
+                pattern.Append("|0,0,0,0,6");
+                pattern.Append("|0,0,0,0,6");
+                pattern.Append("|" + _character.Stats.Strenght.ToString());
+                pattern.Append("|" + _character.Stats.Life.ToString());
+                pattern.Append("|" + _character.Stats.Wisdom.ToString());
+                pattern.Append("|" + _character.Stats.Water.ToString());
+                pattern.Append("|" + _character.Stats.Agility.ToString());
+                pattern.Append("|" + _character.Stats.Fire.ToString());
+                //packet += "|" + this.m_character.Stats.CurrentPA + ",0,0,0,6";
+                //packet += "|" + this.m_character.Stats.CurrentPM + ",0,0,0,6";
+                //packet += "|" + this.m_character.Stats.Force.Base + "," + this.m_character.Stats.Force.Item + ",0,0";//TODO!Faire tout les supplement
+                //packet += "|" + this.m_character.Stats.Vitalite.Base + "," + this.m_character.Stats.Vitalite.Item + ",0,0";
+                //packet += "|" + this.m_character.Stats.Sagesse.Base + "," + this.m_character.Stats.Sagesse.Item + ",0,0";
+                //packet += "|" + this.m_character.Stats.Eau.Base + "," + this.m_character.Stats.Eau.Item + ",0,0";
+                //packet += "|" + this.m_character.Stats.Air.Base + "," + this.m_character.Stats.Air.Item + ",0,0";
+                //packet += "|" + this.m_character.Stats.Feu.Base + "," + this.m_character.Stats.Feu.Item + ",0,0";
+                //packet += "|" + this.m_character.Stats.PO.Total + "," + this.m_character.Stats.PO.Item + ",0,0";
+                //packet += "|" + "1,0,0,0";
+                return pattern.ToString();
+            }
+        }
+
+        public string CharacterToEnemiesListKnow
+        {
+            get
+            {
+                StringBuilder packet = new StringBuilder();
+                packet.Append(";?;");//FIXME
+                packet.Append(_character.Nickname).Append(";");
+                packet.Append(_character.Level).Append(";");
+                packet.Append("-1;");//FIXME : Alignement
+                packet.Append(_character.Breed).Append(";");
+                packet.Append(_character.Gender).Append(";");
+                packet.Append(_character.Look).Append(";");
+                return packet.ToString();
+            }
+        }
+
+        public string CharacterToEnemiesListUnKnow
+        {
+            get
+            {
+                StringBuilder packet = new StringBuilder();
+                packet.Append(";?;");//FIXME
+                packet.Append(_character.Nickname).Append(";");
+                packet.Append("?").Append(";");
+                packet.Append("-1;");//FIXME : Alignement
+                packet.Append(_character.Breed).Append(";");
+                packet.Append(_character.Gender).Append(";");
+                packet.Append(_character.Look).Append(";");
+                return packet.ToString();
+            }
+        }
+
+        public string CharacterToFriendsListKnow
+        {
+            get
+            {
+                StringBuilder packet = new StringBuilder();
+                packet.Append(";?;");//FIXME
+                packet.Append(_character.Nickname).Append(";");
+                packet.Append(_character.Level).Append(";");
+                packet.Append("-1;");//FIXME : Alignement
+                packet.Append(_character.Breed).Append(";");
+                packet.Append(_character.Gender).Append(";");
+                packet.Append(_character.Look).Append(";");
+                return packet.ToString();
+            }
+        }
+
+        public string CharacterToFriendsListUnKnow
+        {
+            get
+            {
+                StringBuilder packet = new StringBuilder();
+                packet.Append(";?;");//FIXME
+                packet.Append(_character.Nickname).Append(";");
+                packet.Append("?").Append(";");
+                packet.Append("-1;");//FIXME : Alignement
+                packet.Append(_character.Breed).Append(";");
+                packet.Append(_character.Gender).Append(";");
+                packet.Append(_character.Look).Append(";");
+                return packet.ToString();
+            }
+        }
+    }
+}

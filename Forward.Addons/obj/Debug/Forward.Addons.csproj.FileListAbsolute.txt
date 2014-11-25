@@ -1,0 +1,5 @@
+E:\Emulateur\Forward\trunk\Forward.Addons\bin\Debug\Forward.Addons.dll
+E:\Emulateur\Forward\trunk\Forward.Addons\bin\Debug\Forward.Addons.pdb
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Debug\ResolveAssemblyReference.cache
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Debug\Forward.Addons.dll
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Debug\Forward.Addons.pdb

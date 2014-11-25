@@ -1,0 +1,57 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Communication.Realm
+{
+    public static class Communicator
+    {
+        public static CommunicationServer Server;
+        public static Dictionary<string, Database.Records.AccountRecord> Tickets = new Dictionary<string, Database.Records.AccountRecord>();
+
+        public static void InitServer()
+        {
+            Server = new CommunicationServer(Utilities.ConfigurationManager.GetStringValue("CommunicationHost"), 
+                                                        Utilities.ConfigurationManager.GetIntValue("CommunicationPort"));
+        }
+
+        public static void ReceivedKey(RealmLink link, Protocol.ForwardPacket packet)
+        {
+            string key = packet.Reader.ReadString();
+            if (key == Utilities.ConfigurationManager.GetStringValue("SecureKey"))
+            {
+                Logger.LogInfo("Key match, MainRealm connected !");
+                link.IsMain = true;
+                Server.MainRealm = link;
+            }
+            else
+            {
+                Logger.LogInfo("Key '" + key + "' is not valid !");
+                link.Close();
+            }
+        }
+
+        public static void ReceivedPlayer(RealmLink link, Protocol.ForwardPacket packet)
+        {
+            string ticket = packet.Reader.ReadString();
+            Database.Records.AccountRecord account = new Database.Records.AccountRecord()
+            {
+                ID = packet.Reader.ReadInt32(),
+                Username = packet.Reader.ReadString(),
+                Password = packet.Reader.ReadString(),
+                Pseudo = packet.Reader.ReadString(),
+                SecretQuestion = packet.Reader.ReadString(),
+                SecretAnswer = packet.Reader.ReadString(),
+                AdminLevel = packet.Reader.ReadInt32(),
+            };
+            Logger.LogInfo("Account '" + account.Username + "' added to waiting ticket");
+            Tickets.Add(ticket, account);
+        }
+    }
+}

@@ -1,0 +1,248 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using ForwardWorld.World.Handlers.Items;
+using ForwardWorld.Enums;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Engines
+{
+    public class ItemEngine
+    {
+        private Database.Records.CharacterRecord _character;
+        public List<Database.Records.WorldItemRecord> Items = new List<Database.Records.WorldItemRecord>();
+
+        public List<Effect> Effects = new List<Effect>();
+
+        public ItemEngine(Database.Records.CharacterRecord character)
+        {
+            _character = character;
+        }
+
+        public ItemEngine() { }
+
+        public void Load(string toParse)
+        {
+            Effects = Parse(toParse);
+        }
+
+        public Database.Records.WorldItemRecord DuplicateItem(Database.Records.WorldItemRecord item, int pos)
+        {
+            Database.Records.WorldItemRecord newItem = new Database.Records.WorldItemRecord();
+            newItem.Effects = item.Effects;
+            newItem.Template = item.Template;
+            newItem.Position = pos;
+            newItem.Quantity = 1;
+            newItem.Owner = item.Owner;
+            newItem.Engine.Load(newItem.Effects);
+            newItem.SaveAndFlush();
+            Items.Add(newItem);
+            _character.Player.Send("OAKO" + newItem.DisplayItem);
+            _character.Player.Action.RefreshPods();
+            return newItem;
+        }
+
+        public void AddItem(Database.Records.WorldItemRecord item, bool newStack = false, int quantity = 1)
+        {
+            if (item.Position == -1)
+            {        
+                if (!HaveItemWithSameEffects(item.Effects) || newStack)
+                {
+                    item.Quantity = quantity;
+                    item.SaveAndFlush();
+                    if (_character != null)
+                    {
+                        if (_character.Player != null)
+                        {
+                            _character.Player.Send("OAKO" + item.DisplayItem);
+                            _character.Player.Action.RefreshPods();
+                        }
+                    }
+                    Items.Add(item);
+                }
+                else
+                {
+                    Database.Records.WorldItemRecord existItem = GetItemWithSameEffects(item.Effects, item.Template);
+                    existItem.Quantity += quantity;
+                    RefreshQuantity(existItem);
+                }
+            }
+            else
+            {
+                if (_character != null)
+                {
+                    if (_character.Player != null)
+                    {
+                        _character.Player.Send("OAKO" + item.DisplayItem);
+                        _character.Player.Action.RefreshPods();
+                    }
+                }
+                Items.Add(item);
+            }
+       }
+
+        public void RemoveItem(Database.Records.WorldItemRecord item, int quantity)
+        {
+            if (_character != null)
+            {
+                if (_character.Player != null)
+                {
+                    if (item.Quantity - quantity <= 0)
+                    {
+                        _character.Player.Send("OR" + item.ID);
+                        item.DeleteAndFlush();
+                        Items.Remove(item);
+                    }
+                    else
+                    {
+                        item.Quantity -= quantity;
+                        RefreshQuantity(item);
+                    }
+                    _character.Player.Action.RefreshPods();
+                }
+            }
+        }
+
+        public void RefreshQuantity(Database.Records.WorldItemRecord item)
+        {
+            if (_character != null)
+            {
+                if (_character.Player != null)
+                {
+                    _character.Player.Send("OQ" + item.ID + "|" + item.Quantity);
+                }
+            }
+        }
+
+        public bool HaveItemWithSameEffects(string effect, int itemID = -1)
+        {
+            return Items.FindAll(x => x.Effects == effect && x.ID != itemID).Count > 0;
+        }
+
+        public bool HaveItemID(int id)
+        {
+            return Items.FindAll(x => x.ID == id).Count > 0;
+        }
+
+        public bool HaveItem(int id)
+        {
+            return Items.FindAll(x => x.Template == id).Count > 0;
+        }
+
+        public Database.Records.WorldItemRecord GetItemWithSameEffects(string effect, int id, int itemID = -1)
+        {
+            return Items.FirstOrDefault(x => x.Effects == effect && x.Template == id && x.ID != itemID);
+        }
+
+        public Database.Records.WorldItemRecord GetItem(int id)
+        {
+            return Items.FirstOrDefault(x => x.ID == id);
+        }
+
+        public Database.Records.WorldItemRecord GetItemAtPos(int pos)
+        {
+            if(Items.FindAll(x => x.Position == pos).Count > 0)
+            {
+                return Items.FirstOrDefault(x => x.Position == pos);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string DisplayItem()
+        {
+            string pattern = "";
+            pattern += (GetItemAtPos(ItemPositionConstants.Arme) == null ? -900000 : GetItemAtPos(ItemPositionConstants.Arme).Template).ToString("x") + ",";
+            pattern += (GetItemAtPos(ItemPositionConstants.Chapeau) == null ? -900000 : GetItemAtPos(ItemPositionConstants.Chapeau).Template).ToString("x") + ",";
+            pattern += (GetItemAtPos(ItemPositionConstants.Cape) == null ? -900000 : GetItemAtPos(ItemPositionConstants.Cape).Template).ToString("x") + ",";
+            pattern += (GetItemAtPos(ItemPositionConstants.Familier) == null ? -900000 : GetItemAtPos(ItemPositionConstants.Familier).Template).ToString("x") + ",";
+            pattern += (GetItemAtPos(ItemPositionConstants.Bouclier) == null ? -900000 : GetItemAtPos(ItemPositionConstants.Bouclier).Template).ToString("x") + ",";
+            return pattern.Replace("fff24460", "");
+        }
+
+        #region Effects
+
+        public string StringEffect()
+        {
+            return string.Join(",", Effects);
+        }
+
+        public List<Effect> GetRandomEffect()
+        {
+            List<Effect> randomEffects = new List<Effect>();
+            Effects.ForEach(x => randomEffects.Add(CreateRandomEffect(x)));
+            return randomEffects;
+        }
+
+        public Effect CreateRandomEffect(Effect effect)
+        {
+            Effect newEffect = new Effect();
+            newEffect.ID = effect.ID;
+            newEffect.Des.Max = effect.Des.Max;
+            newEffect.Des.Fix = Utilities.Basic.Rand(effect.Des.Min, effect.Des.Max) + effect.Des.Fix;
+            newEffect.Des.Max = newEffect.Des.Fix;
+            return newEffect;
+        }
+
+        public List<Effect> Parse(string toParse)
+        {
+            List<Effect> toReturn = new List<Effect>();
+            foreach (string littleEffect in toParse.Split(','))
+            {
+                Effect newEffect = ParseLittleEffect(littleEffect);
+                toReturn.Add(newEffect);
+            }
+            return toReturn;
+        }
+
+        public Effect ParseLittleEffect(string littleEffect)
+        {
+            Effect e = new Effect();
+            if (littleEffect != "")
+            {
+                string[] data = littleEffect.Split('#');
+                if (data[0] != "-1")
+                {
+                    e.ID = Convert.ToInt32(data[0], 16);
+                }
+                if (data.Length > 1)
+                {
+                    if (data[1] != "")
+                    {
+                        e.Des.Min = Convert.ToInt32(data[1], 16);
+                    }
+                }
+                if (data.Length > 2)
+                {
+                    if (data[2] != "")
+                    {
+                        e.Des.Max = Convert.ToInt32(data[2], 16);
+                    }
+                }
+                if (data.Length > 4)
+                {
+                    if (data[4] != "")
+                    {
+                        if (data[4].Contains("+"))
+                        {
+                            string[] desEffect = data[4].Split('d');
+                            e.Des.Min = int.Parse(desEffect[0]);
+                            e.Des.Max = int.Parse(desEffect[1].Split('+')[0]);
+                            e.Des.Fix = int.Parse(data[4].Split('+')[1]);
+                        }
+                    }
+                }
+            }
+            return e;
+        }
+
+        #endregion
+
+    }
+}

@@ -1,0 +1,9 @@
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\bin\Release\Crystal.ControlCenter.exe
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\bin\Release\Crystal.ControlCenter.pdb
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\obj\x86\Release\Crystal.ControlCenter.Properties.Resources.resources
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\obj\x86\Release\Crystal.ControlCenter.csproj.GenerateResource.Cache
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\obj\x86\Release\Crystal.ControlCenter.exe
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\obj\x86\Release\Crystal.ControlCenter.pdb
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\obj\x86\Release\Crystal.ControlCenter.ControlCenterForm.resources
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\bin\Release\SilverSock.dll
+G:\Emulateur\Forward\trunk\Crystal.ControlCenter\obj\x86\Release\Crystal.ControlCenter.csprojResolveAssemblyReference.cache

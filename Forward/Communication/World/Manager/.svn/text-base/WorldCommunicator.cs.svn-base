@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Forward.Communication.World.Manager
+{
+    public static class WorldCommunicator
+    {
+        public static List<Network.WorldLink> Links = new List<Network.WorldLink>();
+
+        public static void InitConnections()
+        {
+            Logger.LogInfo("Init connection with multiple world ...");
+            foreach (Database.Records.GameServerRecord GameServer in Database.Cache.GameServerCache.Cache)
+            {
+                Links.Add(new Network.WorldLink(GameServer));
+            }
+        }
+
+        public static void RefreshServers()
+        {
+            Authentification.Helper.AuthentificationHelper.ConnectedClient.ForEach(x => x.Handler.SendServersState());
+        }
+
+        public static void SendSecureKey(Network.WorldLink link)
+        {
+            link.SendMessage(new Network.Packet.SecureKeyMessage(Utilities.ConfigurationManager.GetStringValue("SecureKey")));
+        }
+
+        public static void SendPlayerToWorld(Network.WorldLink link, Authentification.Network.AuthentificationClient client, string ticket)
+        {
+            link.SendMessage(new Network.Packet.PlayerCommingMessage(client.Account, ticket));
+            System.Threading.Thread.Sleep(250);
+        }
+
+        public static void ReceivedCharacterCreated(Network.WorldLink link, Protocol.ForwardPacket packet)
+        {
+            Database.Records.AccountCharactersInformationsRecord character = new Database.Records.AccountCharactersInformationsRecord()
+            {
+                Owner = packet.Reader.ReadInt32(),
+                Name = packet.Reader.ReadString(),
+                Server = link.GameServer.ID,
+            };
+            character.SaveAndFlush();
+            Database.Cache.AccountCharactersInformationsCache.Cache.Add(character);
+        }
+
+        public static void ReceivedCharacterDeleted(Network.WorldLink link, Protocol.ForwardPacket packet)
+        {
+            string name = packet.Reader.ReadString();
+            Database.Records.AccountCharactersInformationsRecord character =
+                Database.Cache.AccountCharactersInformationsCache.Cache.FirstOrDefault
+                (x => x.Server == link.GameServer.ID && x.Name == name);
+
+            Database.Cache.AccountCharactersInformationsCache.Cache.Remove(character);
+            character.DeleteAndFlush();
+        }
+
+        public static Network.WorldLink GetLink(int id)
+        {
+            return Links.First(x => x.GameServer.ID == id);
+        }
+    }
+}

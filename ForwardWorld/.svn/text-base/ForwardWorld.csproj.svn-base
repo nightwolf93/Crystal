@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{008D7541-00F4-45FF-9ABC-8B6360730691}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ForwardWorld</RootNamespace>
+    <AssemblyName>ForwardWorld</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\..\Desktop\Developpement\Forward\World\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>F:\ActiveRecord\net40\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Components.Validator">
+      <HintPath>F:\ActiveRecord\net40\Castle.Components.Validator.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>F:\ActiveRecord\net40\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>F:\ActiveRecord\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=5.1.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>F:\Emulateur\engine v1\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>F:\ActiveRecord\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>F:\ActiveRecord\net40\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.Search">
+      <HintPath>..\..\..\..\..\Desktop\Forward\AuthService\NHibernate.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="SilverSock">
+      <HintPath>F:\Projects\SilverSock\SilverSock\bin\Release\SilverSock.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Zivsoft.Log">
+      <HintPath>..\..\..\..\..\..\Desktop\AllFolder\Forward\Zivsoft.Log.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractClass\AbstractClient.cs" />
+    <Compile Include="AbstractClass\AbstractServer.cs" />
+    <Compile Include="Communication\Protocol\ForwardPacket.cs" />
+    <Compile Include="Communication\Protocol\ForwardPacketTypeEnum.cs" />
+    <Compile Include="Communication\Realm\CommunicationServer.cs" />
+    <Compile Include="Communication\Realm\Communicator.cs" />
+    <Compile Include="Communication\Realm\Packet\HelloKeyMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerConnectedMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerCreatedCharacterMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerDeletedCharacterMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\PlayerDisconnectedMessage.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldMaintenance.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldMaintenanceFinished.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldSave.cs" />
+    <Compile Include="Communication\Realm\Packet\WorldSaveFinished.cs" />
+    <Compile Include="Communication\Realm\RealmLink.cs" />
+    <Compile Include="Database\Cache\AccountDataCache.cs" />
+    <Compile Include="Database\Cache\BaseSpellCache.cs" />
+    <Compile Include="Database\Cache\CharacterCache.cs" />
+    <Compile Include="Database\Cache\ExpFloorCache.cs" />
+    <Compile Include="Database\Cache\IncarnamTeleporterCache.cs" />
+    <Compile Include="Database\Cache\ItemCache.cs" />
+    <Compile Include="Database\Cache\MapCache.cs" />
+    <Compile Include="Database\Cache\NpcCache.cs" />
+    <Compile Include="Database\Cache\NpcDialogCache.cs" />
+    <Compile Include="Database\Cache\NpcPositionCache.cs" />
+    <Compile Include="Database\Cache\OriginalBreedStartMapCache.cs" />
+    <Compile Include="Database\Cache\TriggerCache.cs" />
+    <Compile Include="Database\Cache\WorldItemCache.cs" />
+    <Compile Include="Database\Cache\ZaapCache.cs" />
+    <Compile Include="Database\Manager\DatabaseManager.cs" />
+    <Compile Include="Database\Records\AccountDataRecord.cs" />
+    <Compile Include="Database\Records\AccountRecord.cs" />
+    <Compile Include="Database\Records\BaseSpellRecord.cs" />
+    <Compile Include="Database\Records\CharacterRecord.cs" />
+    <Compile Include="Database\Records\ExpFloorRecord.cs" />
+    <Compile Include="Database\Records\IncarnamTeleportRecord.cs" />
+    <Compile Include="Database\Records\ItemRecord.cs" />
+    <Compile Include="Database\Records\MapRecords.cs" />
+    <Compile Include="Database\Records\NpcDialogRecord.cs" />
+    <Compile Include="Database\Records\NpcPositionRecord.cs" />
+    <Compile Include="Database\Records\NpcRecord.cs" />
+    <Compile Include="Database\Records\OriginalBreedStartMapRecord.cs" />
+    <Compile Include="Database\Records\TriggerRecord.cs" />
+    <Compile Include="Database\Records\WorldItemRecord.cs" />
+    <Compile Include="Database\Records\ZaapRecord.cs" />
+    <Compile Include="Engines\ItemEngine.cs" />
+    <Compile Include="Engines\MapEngine.cs" />
+    <Compile Include="Engines\Map\PlayersMapEngine.cs" />
+    <Compile Include="Engines\Map\SpawnerEngine.cs" />
+    <Compile Include="Engines\PartyEngine.cs" />
+    <Compile Include="Engines\Pathfinding.cs" />
+    <Compile Include="Engines\Path\Cell.cs" />
+    <Compile Include="Engines\Path\PriorityQueue.cs" />
+    <Compile Include="Engines\Path\SpatialAStar.cs" />
+    <Compile Include="Engines\SpellBook.cs" />
+    <Compile Include="Engines\StatsEngine.cs" />
+    <Compile Include="Engines\Stats\SingleStats.cs" />
+    <Compile Include="Enums\ChannelEnum.cs" />
+    <Compile Include="Enums\ExchangeTypeEnum.cs" />
+    <Compile Include="Enums\InteractiveObjectEnum.cs" />
+    <Compile Include="Enums\ItemEffectEnum.cs" />
+    <Compile Include="Enums\ItemPositionConstants.cs" />
+    <Compile Include="Enums\StatsTypeEnum.cs" />
+    <Compile Include="Interop\Scripting\Script.cs" />
+    <Compile Include="Interop\Scripting\ScriptArgs.cs" />
+    <Compile Include="Interop\Scripting\ScriptManager.cs" />
+    <Compile Include="Patterns\CharacterPattern.cs" />
+    <Compile Include="Patterns\NpcPattern.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Basic.cs" />
+    <Compile Include="Utilities\ConfigurationManager.cs" />
+    <Compile Include="Utilities\SerializerManager.cs" />
+    <Compile Include="World\Game\WorldSpell.cs" />
+    <Compile Include="World\Handlers\AccountHandler.cs" />
+    <Compile Include="World\Handlers\BasicHandler.cs" />
+    <Compile Include="World\Handlers\DialogHandler.cs" />
+    <Compile Include="World\Handlers\EnemiesHandler.cs" />
+    <Compile Include="World\Handlers\ExchangeHandler.cs" />
+    <Compile Include="World\Handlers\FriendHandler.cs" />
+    <Compile Include="World\Handlers\GameHandler.cs" />
+    <Compile Include="World\Handlers\Items\Des.cs" />
+    <Compile Include="World\Handlers\Items\Effect.cs" />
+    <Compile Include="World\Handlers\PartyHandler.cs" />
+    <Compile Include="World\Handlers\NpcHandler.cs" />
+    <Compile Include="World\Handlers\SpellHandler.cs" />
+    <Compile Include="World\Handlers\ZaapHandler.cs" />
+    <Compile Include="World\Helper\AccountHelper.cs" />
+    <Compile Include="World\Helper\ExpFloorHelper.cs" />
+    <Compile Include="World\Helper\ItemHelper.cs" />
+    <Compile Include="World\Helper\MapHelper.cs" />
+    <Compile Include="World\Handlers\ItemHandler.cs" />
+    <Compile Include="World\Helper\NpcHelper.cs" />
+    <Compile Include="World\Helper\WorldHelper.cs" />
+    <Compile Include="World\Helper\ZaapHelper.cs" />
+    <Compile Include="World\Manager\WorldManager.cs" />
+    <Compile Include="World\Network\Dispatcher.cs" />
+    <Compile Include="World\Network\World.cs" />
+    <Compile Include="World\Network\WorldClient.cs" />
+    <Compile Include="World\Network\WorldClientState.cs" />
+    <Compile Include="World\Network\WorldPlayer.cs" />
+    <Compile Include="World\Network\WorldServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engines\Item\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

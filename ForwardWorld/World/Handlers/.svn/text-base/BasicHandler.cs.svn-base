@@ -1,0 +1,411 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers
+{
+    public class BasicHandler
+    {
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("BA", typeof(BasicHandler).GetMethod("AdminCommand"));
+            Network.Dispatcher.RegisteredMethods.Add("BM", typeof(BasicHandler).GetMethod("ChatMessage"));
+            Network.Dispatcher.RegisteredMethods.Add("BaM", typeof(BasicHandler).GetMethod("ExecuteQuickTeleportation"));
+            Network.Dispatcher.RegisteredMethods.Add("BYA", typeof(BasicHandler).GetMethod("WantAwayMode"));
+            Network.Dispatcher.RegisteredMethods.Add("cC+", typeof(BasicHandler).GetMethod("AddSubscriptionChannel"));
+            Network.Dispatcher.RegisteredMethods.Add("cC-", typeof(BasicHandler).GetMethod("DeleteSubscriptionChannel"));
+        }
+
+        public static void AdminCommand(World.Network.WorldClient client, string packet)
+        {
+            try
+            {
+                if (client.Account.AdminLevel <= 0) { return; }
+                string[] command = packet.Substring(2).Split(' ');
+                switch (command[0].ToLower())
+                {
+                    case "goto":
+                        switch(command.Length)
+                        {
+                            case 2:
+                                Network.WorldClient player = Helper.WorldHelper.GetClientByCharacter(command[1]);
+                                if (player != null)
+                                {
+                                    World.Network.World.GoToMap(client, player.Character.Map, player.Character.CellID);
+                                    client.Action.SystemMessage("Teleporter au joueur <b>'" + command[1] + "'</b> !");
+                                }
+                                else
+                                {
+                                    client.Action.SystemMessage("Le joueur <b>'" + command[1] + "'</b> n'est pas connecter !");
+                                }                 
+                                break;
+
+                            case 3:
+                                client.Action.SystemMessage("Teleporter sur la carte ID : <b>" + command[1] + "</b>");
+                                Network.World.GoToMap(client, int.Parse(command[1]), int.Parse(command[2]));
+                                break;
+                        }
+                        break;
+
+                    case "item":
+                        Database.Records.WorldItemRecord item = Helper.ItemHelper.GenerateItem(client, int.Parse(command[1]));
+                        client.Character.Items.AddItem(item, false, int.Parse(command[2]));
+                        client.Action.SystemMessage("L'objet <b>" + item.GetTemplate.Name + "</b> a ete correctement ajouter ! ");
+                        break;
+
+                    case "save":
+                        World.Network.World.SaveWithThread(null, null);
+                        break;
+
+                    case "level":
+                        Database.Records.ExpFloorRecord floor = Helper.ExpFloorHelper.GetCharactersLevelFloor(int.Parse(command[1]));
+                        client.Character.Experience = floor.Character;
+                        client.Action.TryLevelUp();
+                        break;
+
+                    case "reload":
+                        switch (command[1])
+                        {
+                            case "zaaps":
+                                Database.Cache.ZaapCache.Init();
+                                client.Action.SystemMessage("Les <b>zaaps</b> du monde on ete recharger !");
+                                break;
+
+                            case "npcs":
+                                Database.Cache.NpcCache.Init();
+                                Database.Cache.NpcPositionCache.Init();
+                                client.Action.SystemMessage("Les <b>Pnjs</b> du monde on ete recharger !");
+                                break;
+
+                            case "scripts":
+                                Interop.Scripting.ScriptManager.Scripts.Clear();
+                                Interop.Scripting.ScriptManager.Load("Scripts");
+                                client.Action.SystemMessage("Les <b>Scripts</b> on ete recharger !");
+                                break;
+                        }
+                        break;
+
+                    case "learn":
+                        switch (command[1])
+                        {
+                            case "zaaps":
+                                Network.WorldClient player;
+
+                                if (command.Length == 3)
+                                {
+                                    player = Helper.WorldHelper.GetClientByCharacter(command[2]);
+                                }
+                                else
+                                {
+                                    player = client;
+                                }
+
+                                if (player != null)
+                                {
+                                    foreach (Database.Records.ZaapRecord zaap in Database.Cache.ZaapCache.Cache)
+                                    {
+                                        if (!client.Character.Zaaps.Contains(zaap.MapID))
+                                        {
+                                            player.Character.Zaaps.Add(zaap.MapID);
+                                        }
+                                    }
+                                    client.Action.SystemMessage("Les zaaps ont ete appris au joueur <b>'" + player.Character.Nickname + "'</b>");
+                                    player.Action.SystemMessage("Vous etes desormais en possesion de la connaissance de touts les zaaps !");
+                                }
+                                else
+                                {
+                                    client.Action.SystemMessage("Le joueur n'est pas connecter !");
+                                }
+                                break;
+
+                        }
+                        break;
+
+                    case "maintenance":
+                        {
+                            switch (command[1])
+                            {
+                                case "true":
+                                    {
+                                        int time = int.Parse(command[2]);
+                                        if (time != null)
+                                        {
+                                            World.Network.World.MaintenanceWorld(time);
+                                        }
+                                        break;
+                                    }
+
+                                case "false":
+                                    {
+                                        World.Network.World.UnMaintenanceWorld(client);
+                                        break;
+                                    }
+                            }
+                        }
+                        break;
+
+                    case "kamas":
+                        int amount = int.Parse(command[1]);
+                        client.Action.AddKamas(amount);
+                        break;
+
+                    case "regen":
+                        client.Action.Regen(0, true);
+                        break;
+
+                    case "find":
+                        string criterion = command[2];
+                        switch (command[1])
+                        {
+                            case "item":
+                                Database.Cache.ItemCache.Cache.FindAll(x => x.Name.ToLower().Contains(criterion.ToLower()))
+                                    .ForEach(x => client.Action.SystemMessage("<b>" + x.Name + "</b> -> " + x.ID));
+                                break;
+                        }
+                        break;
+
+                    default:
+                        client.Action.SystemMessage("La commande <b>'" + command[0] + "'</b> est inexistante !");
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                client.Action.SystemMessage("Erreur lors de l'execution de la commande, pour avoir la syntaxe de la commande consulter l'aide fournit avec Forward");
+                Logger.LogError("Error AdminCMD : " + e.ToString());
+            }
+        }
+
+        public static void AddSubscriptionChannel(World.Network.WorldClient client, string packet)
+        {
+            string channel = packet[3].ToString();
+            switch (channel)
+            {
+                case Enums.ChannelEnum.Default:
+                        client.Action.SelectedChannels[Enums.ChannelEnum.Default] = true;
+                    break;
+
+                case Enums.ChannelEnum.Recruitment:
+                    client.Action.SelectedChannels[Enums.ChannelEnum.Recruitment] = true;
+                    break;
+                    
+                case Enums.ChannelEnum.Trade:
+                    client.Action.SelectedChannels[Enums.ChannelEnum.Trade] = true;
+                    break;
+            }
+        }
+
+        public static void DeleteSubscriptionChannel(World.Network.WorldClient client, string packet)
+        {
+            string channel = packet[3].ToString();
+            switch (channel)
+            {
+                case Enums.ChannelEnum.Default:
+                    client.Action.SelectedChannels[Enums.ChannelEnum.Default] = false;
+                    client.Send("cC-" + Enums.ChannelEnum.Default);
+                    break;
+
+                case Enums.ChannelEnum.Recruitment:
+                    client.Action.SelectedChannels[Enums.ChannelEnum.Recruitment] = false;
+                    break;
+
+                case Enums.ChannelEnum.Trade:
+                    client.Action.SelectedChannels[Enums.ChannelEnum.Trade] = false;
+                    break;
+            }
+        }
+
+        public static void ChatMessage(World.Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(2).Split('|');
+            string channel = data[0];
+            string message = data[1];
+            switch (channel)
+            {
+                case Enums.ChannelEnum.Default:
+                    if (message.StartsWith("."))
+                    {
+                        string[] command = message.Split(' ');
+                        PlayerCommandExecute(command[0].Substring(1), command, client);
+                    }
+                    else if (message.StartsWith("!"))
+                    {
+                        if (client.Account.AdminLevel > 0)
+                        {
+                            string[] command = message.Split(' ');
+                            AdminCommand(client, "BA" + message.Substring(1));
+                        }
+                        else
+                        {
+                            client.Action.SystemMessage("Vous n'avez pas les permissions pour executer les commandes Admin !");
+                        }
+                    }
+                    else
+                    {
+                        if (client.Action.LastMessage != message)
+                        {
+                            if (client.Action.SelectedChannels[Enums.ChannelEnum.Default] != false)
+                            {
+                                client.Character.Map.Engine.Send("cMK|" + client.Character.ID + "|" + client.Character.Nickname + "|" + message);
+                                client.Action.LastMessage = message;
+                            }
+                        }
+                        else
+                        {
+                            client.SendImPacket("184");
+                        }             
+                    }           
+                    break;
+
+                case Enums.ChannelEnum.Trade:
+                    if (client.Action.LastMessage != message)
+                    {
+                        if (client.Character.Level >= Utilities.ConfigurationManager.GetIntValue("MinLevelToSpeakInWorldChannel"))
+                        {
+                            if (client.Action.SelectedChannels[Enums.ChannelEnum.Trade] != false)
+                            {
+                                Network.World.Send("cMK" + Enums.ChannelEnum.Trade + "|" + client.Character.ID + "|" + client.Character.Nickname + "|" + message);
+                                client.Action.LastMessage = message;
+                            }
+                        }
+                        else
+                        {
+                            client.SendImPacket("0157", Utilities.ConfigurationManager.GetIntValue("MinLevelToSpeakInWorldChannel").ToString());
+                        }
+                    }
+                    else
+                    {
+                        client.SendImPacket("184");
+                    }
+                    break;
+
+                case Enums.ChannelEnum.Recruitment:
+                    if (client.Action.LastMessage != message)
+                    {
+                        if (client.Character.Level >= Utilities.ConfigurationManager.GetIntValue("MinLevelToSpeakInWorldChannel"))
+                        {
+                            if(client.Action.SelectedChannels[Enums.ChannelEnum.Trade] != false)
+                            {
+                        Network.World.Send("cMK" + Enums.ChannelEnum.Recruitment + "|" + client.Character.ID + "|" + client.Character.Nickname + "|" + message);
+                        client.Action.LastMessage = message;
+                            }
+                        }
+                        else
+                        {
+                            client.SendImPacket("0157", Utilities.ConfigurationManager.GetIntValue("MinLevelToSpeakInWorldChannel").ToString());
+                        }
+                    }
+                    else
+                    {
+                        client.SendImPacket("184");
+                    }
+                    break;
+
+                case Enums.ChannelEnum.Admin:
+                    if (client.Account.AdminLevel > 0)
+                    {
+                        Manager.WorldManager.Server.Clients.FindAll(x => x.Account.AdminLevel > 0).ForEach(x => x.Send("cMK" + Enums.ChannelEnum.Admin + "|" + client.Character.ID + "|" + client.Character.Nickname + "|" + message));
+                    }
+                    break;
+
+                case Enums.ChannelEnum.Osef:
+
+                    break;
+
+                default:
+                    string nickname = channel;
+                    Network.WorldClient player = Helper.WorldHelper.GetClientByCharacter(nickname);
+                    if (player != null)
+                    {
+                        if (!player.Action.Away && !player.AccountData.EnemiesIDs.Contains(client.AccountData.AccountID))
+                        {
+                            client.Send("cMKT|" + client.Character.ID + "|" + nickname + "|" + message);
+                            player.Send("cMKF|" + client.Character.ID + "|" + client.Character.Nickname + "|" + message);
+                        }
+                        else
+                        {
+                            client.SendImPacket("114" , player.Character.Nickname);
+                        }
+                    }
+                    else
+                    {
+                        client.Send("cMEf" + nickname);
+                    }
+                    break;
+            }
+        }
+
+        public static void PlayerCommandExecute(string label, string[] parameters, World.Network.WorldClient client)
+        {
+            try
+            {
+                if (!Utilities.ConfigurationManager.GetBoolValue("Allow!" + label))
+                {
+                    client.Action.SystemMessage("Vous n'avez pas la permissions d'utiliser cette commande !");
+                    return;
+                }
+                switch (label)
+                {
+                    case "infos":
+                        client.Action.SystemMessage("Core <b>ForwardWorld</b> v<b>" + Program.ForwardVersion + "</b> by NightWolf");
+                        client.Action.SystemMessage("Joueurs en ligne : <b>" + Manager.WorldManager.Server.Clients.Count + "</b>");
+                        break;
+
+                    case "start":
+                        World.Network.World.GoToMap(client, client.Character.SaveMap, client.Character.SaveCell);
+                        break;
+
+                    case "save":
+                        client.Character.SaveAndFlush();
+                        client.Action.SystemMessage("Personnage sauvegarder !");
+                        break;
+
+                    default:
+                        client.Action.SystemMessage("Commande <b>" + label + "</b> inexistante !");
+                        break;
+                }
+            }
+            catch
+            {
+                client.Action.SystemMessage("Impossible d'utiliser la commande !");  
+            }  
+        }
+
+        public static void ExecuteQuickTeleportation(World.Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(3).Split(',');
+            int PosX = int.Parse(data[0]);
+            int PosY = int.Parse(data[1]);
+            Database.Records.MapRecords map = Helper.MapHelper.FindMap(PosX, PosY);
+            if (map != null)
+            {
+                World.Network.World.GoToMap(client, map, client.Character.CellID);
+                client.Action.SystemMessage("Teleporter sur la carte : <b>" + PosX + "," + PosY + "</b> (ID : " + map.ID + ")");
+            }
+            else
+            {
+                client.Action.SystemMessage("Impossible de trouver la carte en : <b>" + PosX + "," + PosY + "</b>");
+            }
+        }
+
+        public static void WantAwayMode(World.Network.WorldClient client, string packet)
+        {
+            if (!client.Action.Away)
+            {
+                client.Action.Away = true;
+                client.SendImPacket("037");
+            }
+            else
+            {
+                client.Action.Away = false;
+                client.SendImPacket("038");
+            }
+        }
+    }
+}

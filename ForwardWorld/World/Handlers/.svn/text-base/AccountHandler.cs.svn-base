@@ -1,0 +1,203 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+
+using Zivsoft.Log;
+using NHibernate.Criterion;
+using NHibernate.Engine;
+using ForwardWorld.Utilities;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers
+{
+    public static class AccountHandler
+    {
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("AT", typeof(AccountHandler).GetMethod("CheckTicket"));
+            Network.Dispatcher.RegisteredMethods.Add("AP", typeof(AccountHandler).GetMethod("SendCharacterRandomName"));
+            Network.Dispatcher.RegisteredMethods.Add("AA", typeof(AccountHandler).GetMethod("CreateCharacter"));
+            Network.Dispatcher.RegisteredMethods.Add("AD", typeof(AccountHandler).GetMethod("DeleteCharacter"));
+            Network.Dispatcher.RegisteredMethods.Add("ALf", typeof(AccountHandler).GetMethod("SendCharacterList"));
+            Network.Dispatcher.RegisteredMethods.Add("AS", typeof(AccountHandler).GetMethod("SelectCharacter"));
+            Network.Dispatcher.RegisteredMethods.Add("AB", typeof(AccountHandler).GetMethod("BoostStats"));
+        }
+
+        public static void CheckTicket(Network.WorldClient client, string packet)
+        {
+            string ticket = packet.Substring(2);
+            if (Communication.Realm.Communicator.Tickets.ContainsKey(ticket))
+            {
+                client.Account = Communication.Realm.Communicator.Tickets[ticket];
+                Communication.Realm.Communicator.Tickets.Remove(ticket);
+
+                client.Account.Characters = Helper.AccountHelper.GetCharactersForOwner(client.Account.ID);
+                client.State = Network.WorldClientState.SelectCharacter;
+
+                if (Helper.AccountHelper.ExistAccountData(client.Account.ID))
+                {
+                    client.AccountData = Helper.AccountHelper.GetAccountData(client.Account.ID);
+                }
+                else
+                {
+                    client.AccountData = Helper.AccountHelper.CreateNewAccountData(client.Account);
+                }
+
+                Communication.Realm.Communicator.Server.MainRealm.SendMessage
+                    (new Communication.Realm.Packet.PlayerConnectedMessage(client.Account.Username));
+
+                SendCharacterList(client, null);
+            }
+        }
+
+        public static void SendCharacterList(Network.WorldClient client, string p)
+        {
+            StringBuilder packet = new StringBuilder("ALK0|" + client.Account.Characters.Count);
+            foreach (Database.Records.CharacterRecord character in client.Account.Characters)
+            {
+                packet.Append("|").Append(character.ID).Append(";").Append(character.Nickname).Append(";").Append(character.Level)
+                    .Append(";").Append(character.Look).Append(";").Append(character.Color1).Append(";").Append(character.Color2)
+                    .Append(";").Append(character.Color3).Append(";").Append(character.Items.DisplayItem()).Append(";0;1;0;0;");
+            }
+            client.Send(packet.ToString());
+        }
+
+        public static void SendCharacterRandomName(Network.WorldClient client, string packet)
+        {
+            client.Send("APK" + Helper.AccountHelper.GetRandomName());
+        }
+
+        public static void DeleteCharacter(Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(2).Split('|');
+            int id = int.Parse(data[0]);
+
+            Database.Records.CharacterRecord character = Helper.AccountHelper.GetCharacter(id);
+            character.Items.Items.ForEach(x => x.DeleteAndFlush());
+            Database.Cache.CharacterCache.Cache.Remove(character);
+            client.Account.Characters.Remove(character);
+            character.Delete();
+
+            Communication.Realm.Communicator.Server.MainRealm.SendMessage
+                    (new Communication.Realm.Packet.PlayerDeletedCharacterMessage(character.Nickname));
+
+            SendCharacterList(client, packet);
+        }
+
+        public static void CreateCharacter(Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(2).Split('|');
+            if (!Helper.AccountHelper.ExistName(data[0]))
+            {
+                if (client.Account.Characters.Count < ConfigurationManager.GetIntValue("MaxCharacterPerServer"))
+                {
+                    Database.Records.CharacterRecord character = new Database.Records.CharacterRecord()
+                    {
+                        Nickname = data[0],
+                        Breed = int.Parse(data[1]),
+                        Gender = int.Parse(data[2]),
+                        Color1 = int.Parse(data[3]),
+                        Color2 = int.Parse(data[4]),
+                        Color3 = int.Parse(data[5]),
+                        Scal = ConfigurationManager.GetIntValue("StartScal"),
+                        Level = ConfigurationManager.GetIntValue("StartLevel"),
+                        Experience = Helper.ExpFloorHelper.GetCharactersLevelFloor(ConfigurationManager.GetIntValue("StartLevel")).Character,
+                        Kamas = ConfigurationManager.GetIntValue("StartKamas"),                                           
+                        Direction = ConfigurationManager.GetIntValue("StartDir"),
+                        CaractPoint = (ConfigurationManager.GetIntValue("StartLevel") * ConfigurationManager.GetIntValue("RateCapitalPoints")) - 5,
+                        SpellPoint = (ConfigurationManager.GetIntValue("StartLevel") * ConfigurationManager.GetIntValue("RateSpellPoints")) - 1,
+                        Owner = client.Account.ID,
+                    };
+
+                    if (Utilities.ConfigurationManager.GetBoolValue("EnableBreedsOriginalStartMap"))
+                    {
+                        Database.Records.OriginalBreedStartMapRecord originalMap = Helper.MapHelper.GetOriginalBreedStartMap(character.Breed);
+                        character.MapID = originalMap.MapID;
+                        character.CellID = originalMap.CellID;
+                        character.SaveMap = originalMap.MapID;
+                        character.SaveCell = originalMap.CellID;
+                    }
+                    else
+                    {
+                        character.MapID = ConfigurationManager.GetIntValue("StartMap");
+                        character.CellID = ConfigurationManager.GetIntValue("StartCell");
+                        character.SaveMap = ConfigurationManager.GetIntValue("StartMap");
+                        character.SaveCell = ConfigurationManager.GetIntValue("StartCell");
+                    }
+                    character.Spells.LearnBaseSpell();
+                    character.CurrentLife = character.Stats.MaxLife;
+                    character.Look = Helper.AccountHelper.GetDefaultLook(character);
+
+                    /* Add character */
+                    character.SaveAndFlush();
+                    Database.Cache.CharacterCache.Cache.Add(character);
+                    client.Account.Characters.Add(character);
+
+                    Communication.Realm.Communicator.Server.MainRealm.SendMessage
+                        (new Communication.Realm.Packet.PlayerCreatedCharacterMessage(character));
+
+                    SendCharacterList(client, packet);
+                    Logger.LogInfo("'" + client.Account.Username + "' has created the character '" + character.Nickname + "'");
+                }
+                else
+                {
+                    client.Send("AAEe");
+                }
+            }
+            else
+            {
+                client.Send("AAEa");
+            }
+        }
+
+        public static void SelectCharacter(Network.WorldClient client, string packet)
+        {
+            int id = int.Parse(packet.Substring(2));
+            Database.Records.CharacterRecord character = client.Account.Characters.FirstOrDefault(x => x.ID == id);
+            if (character != null)
+            {
+                StringBuilder selectPacket = new StringBuilder("ASK|");
+                selectPacket.Append(character.ID).Append("|").Append(character.Nickname).Append("|").Append(character.Level).Append("|")
+                    .Append(character.Breed).Append("|").Append(character.Look).Append("|").Append(character.Color1)
+                    .Append("|").Append(character.Color2).Append("|").Append(character.Color3).Append("||");
+                character.Items.Items.ForEach(x => selectPacket.Append(x.DisplayItem + ";"));
+                selectPacket.Append("|");
+
+                client.Character = character;
+                character.SetPlayer(client);
+                client.Send(selectPacket.ToString());
+            }
+        }
+
+        public static void BoostStats(Network.WorldClient client, string packet)
+        {
+            int type = int.Parse(packet.Substring(2));
+            Engines.Stats.SingleStats Stat = client.Character.Stats.GetStats(type);
+            if (client.Character.CaractPoint <= 0)
+                return;
+            if((Enums.StatsTypeEnum)type == Enums.StatsTypeEnum.Wisdom)
+                if (client.Character.CaractPoint > 3)
+                {
+                    Stat.Base += 1;
+                    client.Character.CaractPoint -= 3;
+                    client.Character.Stats.RefreshStats();
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            Stat.Base += 1;
+            client.Character.CaractPoint -= 1;
+
+            if ((Enums.StatsTypeEnum)type == Enums.StatsTypeEnum.Life)
+                client.Character.CurrentLife += 1;
+
+            client.Character.Stats.RefreshStats();
+        }
+    }
+}

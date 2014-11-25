@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForwardRealm", "Forward\ForwardRealm.csproj", "{24E4E916-8BCE-40F9-87F2-FECA1EE765A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForwardWorld", "ForwardWorld\ForwardWorld.csproj", "{008D7541-00F4-45FF-9ABC-8B6360730691}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24E4E916-8BCE-40F9-87F2-FECA1EE765A3}.Debug|x86.ActiveCfg = Debug|x86
+		{24E4E916-8BCE-40F9-87F2-FECA1EE765A3}.Debug|x86.Build.0 = Debug|x86
+		{24E4E916-8BCE-40F9-87F2-FECA1EE765A3}.Release|x86.ActiveCfg = Release|x86
+		{24E4E916-8BCE-40F9-87F2-FECA1EE765A3}.Release|x86.Build.0 = Release|x86
+		{008D7541-00F4-45FF-9ABC-8B6360730691}.Debug|x86.ActiveCfg = Debug|x86
+		{008D7541-00F4-45FF-9ABC-8B6360730691}.Debug|x86.Build.0 = Debug|x86
+		{008D7541-00F4-45FF-9ABC-8B6360730691}.Release|x86.ActiveCfg = Release|x86
+		{008D7541-00F4-45FF-9ABC-8B6360730691}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Forward.Authentification.Helper
+{
+    public static class AuthentificationHelper
+    {
+        public static int GetCharactersCountOnThisServer(int server, int owner)
+        {
+            return Database.Cache.AccountCharactersInformationsCache.Cache.FindAll(x => x.Server == server && x.Owner == owner).Count;
+        }
+
+        public static List<Network.AuthentificationClient> ConnectedClient
+        {
+            get
+            {
+                return Manager.AuthentificationManager.Server.Clients.FindAll(x => x.State == Network.AuthentificationState.OnServerList);
+            }
+        }
+    }
+}

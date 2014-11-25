@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Helper
+{
+    public static class ItemHelper
+    {
+        public static Database.Records.WorldItemRecord GenerateItem(World.Network.WorldClient client, int templateID)
+        {
+            Database.Records.ItemRecord template = Database.Cache.ItemCache.Cache.First(x => x.ID == templateID);
+            Database.Records.WorldItemRecord item = new Database.Records.WorldItemRecord();
+            item.Template = templateID;
+            item.Engine.Effects = template.Engine.GetRandomEffect();
+            item.Owner = client.Character.ID;
+            item.Effects = item.Engine.StringEffect();
+            item.Position = -1;
+            item.Quantity = 1;
+            return item;
+        }
+    }
+}

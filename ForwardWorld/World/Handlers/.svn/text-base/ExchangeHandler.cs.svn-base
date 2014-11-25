@@ -1,0 +1,102 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers
+{
+    public class ExchangeHandler
+    {
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("ER", typeof(ExchangeHandler).GetMethod("RequestExchange"));
+            Network.Dispatcher.RegisteredMethods.Add("EV", typeof(ExchangeHandler).GetMethod("LeaveExchange"));
+            Network.Dispatcher.RegisteredMethods.Add("EB", typeof(ExchangeHandler).GetMethod("BuyObject"));
+            Network.Dispatcher.RegisteredMethods.Add("ES", typeof(ExchangeHandler).GetMethod("SellObject"));
+        }
+
+        public static void RequestExchange(Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(2).Split('|');
+            Enums.ExchangeTypeEnum type = (Enums.ExchangeTypeEnum)int.Parse(data[0]);
+            switch (type)
+            {
+                case Enums.ExchangeTypeEnum.NPC:
+                    RequestExchangeWithNpc(client, int.Parse(data[1]));
+                    break;
+
+                case Enums.ExchangeTypeEnum.PLAYER:
+                    RequestExchangeWithPlayer(client, int.Parse(data[1]));
+                    break;
+            }
+        }
+
+        public static void RequestExchangeWithNpc(Network.WorldClient client, int id)
+        {
+            Database.Records.NpcPositionRecord npc = client.Character.Map.Engine.GetNpc(id);
+            if (npc != null && !client.Action.IsOccuped)
+            {
+                client.Send("ECK0|" + npc.TempID);
+                client.Send("EL" + npc.Patterns.SellPattern);
+                client.State = Network.WorldClientState.OnExchangePnj;
+                client.Action.ExchangeNpcID = npc.Template.ID;
+            }
+        }
+
+        public static void BuyObject(Network.WorldClient client, string packet)
+        {
+            if (client.State == Network.WorldClientState.OnExchangePnj && client.Action.ExchangeNpcID != -1)
+            {
+                Database.Records.NpcRecord npc = Helper.NpcHelper.GetTemplate(client.Action.ExchangeNpcID);
+                string[] data = packet.Substring(2).Split('|');
+                int templateID = int.Parse(data[0]);
+                int quantity = int.Parse(data[1]);
+                if (npc.SaleItems.Split(',').ToList().Contains(data[0]))
+                {
+                    Database.Records.WorldItemRecord item = Helper.ItemHelper.GenerateItem(client, templateID);
+                    if (client.Character.Kamas >= item.GetTemplate.Price * quantity)
+                    {
+                        client.Character.Items.AddItem(item, false, quantity);
+                        client.Action.RemoveKamas(item.GetTemplate.Price * quantity);
+                    }              
+                }
+            }
+        }
+
+        public static void SellObject(Network.WorldClient client, string packet)
+        {
+            if (client.State == Network.WorldClientState.OnExchangePnj && client.Action.ExchangeNpcID != -1)
+            {
+                string[] data = packet.Substring(2).Split('|');
+                int quantity = int.Parse(data[1]);
+                Database.Records.WorldItemRecord item = client.Character.Items.GetItem(int.Parse(data[0]));
+                if (item != null)
+                {
+                    if (item.Quantity >= quantity)
+                    {
+                        client.Character.Items.RemoveItem(item, quantity);
+                        client.Action.AddKamas(Math.Abs(quantity * (item.GetTemplate.Price / 10)));
+                    }
+                }
+            }
+        }
+
+        public static void RequestExchangeWithPlayer(Network.WorldClient client, int id)
+        {
+            //TODO!
+        }
+
+        public static void LeaveExchange(Network.WorldClient client, string packet = "")
+        {
+            if (client.State == Network.WorldClientState.OnExchangePnj || client.State == Network.WorldClientState.OnExchangePnj)
+            {
+                client.Send("EV");
+                client.State = Network.WorldClientState.None;
+                client.Action.ExchangeNpcID = -1;
+            }      
+        }
+    }
+}

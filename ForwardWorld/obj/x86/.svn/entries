@@ -1,0 +1,34 @@
+10
+
+dir
+11
+https://subversion.assembla.com/svn/forward/trunk/ForwardWorld/obj/x86
+https://subversion.assembla.com/svn/forward
+
+
+
+2011-09-02T00:58:04.150195Z
+11
+nightwolf93000
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+9e0ec244-89e1-4389-8818-d48e07a80603
+
+Debug
+dir
+
+Release
+dir
+

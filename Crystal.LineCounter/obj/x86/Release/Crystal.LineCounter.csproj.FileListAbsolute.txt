@@ -1,0 +1,10 @@
+E:\Emulateur\Forward\trunk\Crystal.LineCounter\bin\Release\Crystal.LineCounter.exe
+E:\Emulateur\Forward\trunk\Crystal.LineCounter\bin\Release\Crystal.LineCounter.pdb
+E:\Emulateur\Forward\trunk\Crystal.LineCounter\obj\x86\Release\Crystal.LineCounter.exe
+E:\Emulateur\Forward\trunk\Crystal.LineCounter\obj\x86\Release\Crystal.LineCounter.pdb
+E:\Emulateur\Forward\trunk\Crystal.LineCounter\obj\x86\Release\Crystal.LineCounter.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Crystal.LineCounter\bin\Release\Crystal.LineCounter.exe
+G:\Emulateur\Forward\trunk\Crystal.LineCounter\bin\Release\Crystal.LineCounter.pdb
+G:\Emulateur\Forward\trunk\Crystal.LineCounter\obj\x86\Release\Crystal.LineCounter.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Crystal.LineCounter\obj\x86\Release\Crystal.LineCounter.exe
+G:\Emulateur\Forward\trunk\Crystal.LineCounter\obj\x86\Release\Crystal.LineCounter.pdb

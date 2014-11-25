@@ -1,0 +1,161 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Interop.Scripting
+{
+    public class Script
+    {
+        public string Name = "Untitled";
+        public string Path = "?";
+
+        public List<ScriptArgs> Args = new List<ScriptArgs>();
+
+        public Script(string path)
+        {
+            this.Path = path;
+            Read();
+        }
+
+        public void Read()
+        {
+            try
+            {
+                StreamReader reader = new StreamReader(Path);
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine().Replace(" ", "");
+                    if (line.StartsWith("~")) continue;
+                    Args.Add(new ScriptArgs(line));
+                }
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Cant load the script '" + e.ToString() + "' !");
+            }
+        }
+
+        public ScriptArgs GetCallBy()
+        {
+            foreach (ScriptArgs arg in Args)
+            {
+                if (arg.Args[0] == "callby")
+                {
+                    return arg;
+                }
+            }
+            return null;
+        }
+
+        public string GetName()
+        {
+            foreach (ScriptArgs arg in Args)
+            {
+                if (arg.Args[0] == "name")
+                {
+                    return arg.Args[1];
+                }
+            }
+            return null;
+        }
+
+        public ScriptArgs GetRef()
+        {
+            foreach (ScriptArgs arg in Args)
+            {
+                if (arg.Args[0] == "ref")
+                {
+                    return arg;
+                }
+            }
+            return null;
+        }
+
+        public void Execute(params object[] parameters)
+        {
+            Logger.LogDebug("Script '" + GetName() + "' called !");
+            switch (GetCallBy().Args[1])
+            {
+                case "npc_response":
+                    if (GetRef().GetIntValue(1) == int.Parse(parameters[0].ToString()))
+                    {
+                        World.Network.WorldClient client = (World.Network.WorldClient)parameters[1];
+                        Args.ForEach(x => ExecuteWithClientArg(x, client));
+                    }
+                    break;
+
+                case "use_item":
+                    if (GetRef().GetIntValue(1) == int.Parse(parameters[0].ToString()))
+                    {
+                        World.Network.WorldClient client = (World.Network.WorldClient)parameters[1];
+                        Args.ForEach(x => ExecuteWithClientArg(x, client, parameters[2]));
+                    }
+                    break;
+            }
+        }
+
+        public void ExecuteWithClientArg(ScriptArgs args, World.Network.WorldClient client, params object[] parameters)
+        {
+            try
+            {
+                switch (args.Args[0])
+                {
+                    case "player":
+                        switch (args.Args[1])
+                        {
+                            case "goto":
+                                World.Network.World.GoToMap(client, args.GetIntValue(2), args.GetIntValue(3));
+                                break;
+
+                            case "respawn":
+                                World.Network.World.GoToMap(client, client.Character.SaveMap, client.Character.SaveCell);
+                                break;
+
+                            case "dialog":
+                                switch (args.Args[2])
+                                {
+                                    case "start":
+                                        //TODO!
+                                        break;
+                                }
+                                break;
+
+                            case "life":
+                                switch (args.Args[2])
+                                {
+                                    case "restore":
+                                        client.Action.Regen(int.Parse(args.Args[3]));
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+
+                    case "this":
+                        switch (args.Args[1])
+                        {
+                            case "item":
+                                switch (args.Args[2])
+                                {
+                                    case "remove":
+                                        Database.Records.WorldItemRecord toDeleteItem = (Database.Records.WorldItemRecord)parameters[0];
+                                        client.Character.Items.RemoveItem(toDeleteItem, 1);
+                                        break;
+                                }
+                                break;
+                        }
+                        break;
+                }
+            }
+            catch { }     
+        }
+    }
+}

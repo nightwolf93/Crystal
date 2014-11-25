@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Castle.ActiveRecord;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Database.Records
+{
+    [ActiveRecord("maps_data")]
+    public class MapRecords : ActiveRecordBase<MapRecords>
+    {
+
+        public MapRecords()
+        {
+            this.Engine = new Engines.MapEngine(this);
+        }
+
+        #region Database Fields
+
+        [PrimaryKey("id")]
+        public int ID
+        {
+            get;
+            set;
+        }
+
+        [Property("width")]
+        public int Width
+        {
+            get;
+            set;
+        }
+
+        [Property("heigth")]
+        public int Height
+        {
+            get;
+            set;
+        }
+
+        [Property("mapData")]
+        public string MapData
+        {
+            get;
+            set;
+        }
+
+        [Property("decryptkey")]
+        public string DecryptKey
+        {
+            get;
+            set;
+        }
+
+        [Property("date")]
+        public string CreateTime
+        {
+            get;
+            set;
+        }
+
+        [Property("monsters")]
+        public string Monsters
+        {
+            get;
+            set;
+        }
+
+        [Property("groupmaxsize")]
+        public int MaximumMonster
+        {
+            get;
+            set;
+        }
+
+        [Property("numgroup")]
+        public int MaximumGroup
+        {
+            get;
+            set;
+        }
+
+        [Property("places")]
+        public string Places
+        {
+            get;
+            set;
+        }
+
+        [Property("mappos")]
+        public string Position
+        {
+            get
+            {
+                return PosX + "," + PosY + ",0";
+            }
+            set
+            {
+                string[] data = value.Split(',');
+                PosX = int.Parse(data[0]);
+                PosY = int.Parse(data[1]);
+            }
+        }
+
+        #endregion
+
+        #region Fields
+
+        public Engines.MapEngine Engine;
+
+        public List<TriggerRecord> Triggers = new List<TriggerRecord>();
+
+        public int PosX
+        {
+            get;
+            set;
+        }
+
+        public int PosY
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+    }
+}

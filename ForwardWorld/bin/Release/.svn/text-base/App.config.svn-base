@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="Log" type="Zivsoft.Log.Handler,Zivsoft.Log"/>
+
+  </configSections>
+  <Log level="DEBUG">
+    <LogFile>Logs/Forward_World.log</LogFile>
+    <Console len="max">true</Console>
+    <XmlLog enabled="false">Logs/history.log</XmlLog>
+    <ShowHeader>true</ShowHeader>
+  </Log>
+
+  <!-- If CreateShema is true, he create all table in your database and delete any table existing -->
+  <appSettings>
+    <!-- ActiveRecord -->
+    <add key="CreateShema" value="false"/>
+    <add key="FastLoading" value="true"/>
+
+    <add key="SQLHost" value="127.0.0.1"/>
+    <add key="SQLDB" value="forward_world"/>
+    <add key="SQLUsername" value="root"/>
+    <add key="SQLPassword" value=""/>
+
+    <!-- World Settings -->
+    <add key="SecureKey" value="mdp"/>
+    <add key="CryptKey" value="false"/>
+    
+    <add key="ServerID" value="1"/>
+    <add key="ServerName" value="Jiva"/>
+
+    <add key="WorldHost" value="127.0.0.1"/>
+    <add key="WorldPort" value="5556"/>
+
+    <add key="CommunicationHost" value="127.0.0.1"/>
+    <add key="CommunicationPort" value="3333"/>
+
+    <add key="SaveIntervall" value="240000"/>
+    <add key ="RecruitementMessageInterval" value ="10000"/>
+    
+    <!-- Accounts Settings -->
+    <add key="MaxCharacterPerServer" value="5"/>
+    <add key="MaxCaractereInNickname" value="20"/>
+    <add key="MinCharactereInNickname" value="5"/>
+    
+    <!-- Start Settings -->
+    <add key="StartScal" value="100"/>
+    <add key="StartLevel" value="100"/>
+    <add key="StartKamas" value="10000000"/>
+    <add key="StartMap" value="10354"/>
+    <add key="StartCell" value="255"/>
+    <add key="StartDir" value="3"/>
+    <add key="StartItems" value=""/>
+
+    <add key="EnableRandomStartMap" value="false"/>
+    <add key="PossibleStartMap" value="10354,255;1000,200"/>
+
+    <add key="EnableBreedsOriginalStartMap" value="true"/>
+    
+    <!-- Game Settings -->
+    <add key="MaxCharactersPerMap" value="50"/>
+    <add key="MaximumIdleTime" value="5"/>
+    <add key="EnableAura" value="true"/>
+    <add key="ShowAdminLabel" value="false"/>
+    <add key="ShowOfficialDofusMessage" value="true"/>
+    <add key="ShowSaveMessage" value="true"/>
+    <add key="MinLevelToSpeakInWorldChannel" value="10"/>
+
+    <add key="SystemMessageColor" value="#009a13"/>
+
+    <add key="WelcomeMessageEnabled" value="true"/>
+    <add key="WelcomeMessageColor" value="#009a13"/>
+    <add key="WelcomeMessage" value="Bienvenue sur le serveur Forward"/>
+    
+    <!-- Rates -->
+    <add key="RateDrops" value="1"/>
+    <add key="RateExp" value="1"/>
+    <add key="RateCapitalPoints" value="5"/>
+    <add key="RateSpellPoints" value="1"/>
+    <add key="RateLife" value="1"/>
+    
+    <!-- Command Allower ( Base command emulator + Plugins commands ) you can add you're keys -->
+    <add key="Allow!start" value="true"/>
+    <add key="Allow!infos" value="true"/>
+    <add key="Allow!save" value="true"/>
+
+  </appSettings>
+
+</configuration>

@@ -1,0 +1,5 @@
+E:\Emulateur\Forward\trunk\Forward.i18n\bin\Release\Forward.i18n.dll
+E:\Emulateur\Forward\trunk\Forward.i18n\bin\Release\Forward.i18n.pdb
+E:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\ResolveAssemblyReference.cache
+E:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Forward.i18n.dll
+E:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Forward.i18n.pdb

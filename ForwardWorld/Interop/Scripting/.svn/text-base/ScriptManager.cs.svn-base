@@ -1,0 +1,37 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Interop.Scripting
+{
+    public static class ScriptManager
+    {
+        public static List<Script> Scripts = new List<Script>();
+
+        public static void Load(string path)
+        {
+            foreach (string file in System.IO.Directory.GetFiles(path))
+            {
+                Scripts.Add(new Script(file));
+            }
+            System.IO.Directory.GetDirectories(path).ToList().ForEach(x => Load(x));
+        }
+
+        public static List<Script> GetScriptsByCallType(string callType)
+        {
+            return Scripts.FindAll(x => x.GetCallBy().Args[1] == callType);
+        }
+
+        public static void CallScript(string callby, params object[] parameters)
+        {
+            foreach (Script script in GetScriptsByCallType(callby))
+            {
+                script.Execute(parameters);
+            }
+        }
+    }
+}

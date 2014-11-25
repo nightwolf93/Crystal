@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author MonSterC²
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Communication.Realm.Packet
+{
+    public class WorldMaintenance : Protocol.ForwardPacket
+    {
+        public WorldMaintenance()
+            : base(Protocol.ForwardPacketTypeEnum.WorldMaintenance)
+        { }
+    }
+}

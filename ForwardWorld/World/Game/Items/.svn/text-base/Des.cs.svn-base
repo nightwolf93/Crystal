@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers.Items
+{
+    public class Des
+    {
+        public int Min
+        {
+            get;
+            set;
+        }
+
+        public int Max
+        {
+            get;
+            set;
+        }
+
+        public int Fix
+        {
+            get;
+            set;
+        }
+
+        public override string ToString()
+        {
+            return Min + "d" + Max + "+" + Fix;
+        }
+    }
+}

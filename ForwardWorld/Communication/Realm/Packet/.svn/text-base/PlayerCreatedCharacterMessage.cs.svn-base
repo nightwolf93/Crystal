@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Communication.Realm.Packet
+{
+    public class PlayerCreatedCharacterMessage : Protocol.ForwardPacket
+    {
+        public PlayerCreatedCharacterMessage(Database.Records.CharacterRecord character)
+            : base(Protocol.ForwardPacketTypeEnum.PlayerCreatedCharacterMessage)
+        {
+            Writer.Write(character.Owner);
+            Writer.Write(character.Nickname);
+        }
+    }
+}

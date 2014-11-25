@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Helper
+{
+    public static class ExpFloorHelper
+    {
+        public static Database.Records.ExpFloorRecord GetCharactersFloor(long exp)
+        {
+            if (Database.Cache.ExpFloorCache.Cache.FindAll(x => x.Character >= exp).Count > 0)
+            {
+                return Database.Cache.ExpFloorCache.Cache.FirstOrDefault(x => x.Character >= exp);
+            }
+            else
+            {
+                return null;
+            }         
+        }
+
+        public static Database.Records.ExpFloorRecord GetCharactersLevelFloor(int level)
+        {
+            if (Database.Cache.ExpFloorCache.Cache.FindAll(x => x.ID == level).Count > 0)
+            {
+                return Database.Cache.ExpFloorCache.Cache.FirstOrDefault(x => x.ID == level);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static Database.Records.ExpFloorRecord GetNextCharactersLevelFloor(int level)
+        {
+            if (Database.Cache.ExpFloorCache.Cache.FindAll(x => x.ID == level + 1).Count > 0)
+            {
+                return Database.Cache.ExpFloorCache.Cache.FirstOrDefault(x => x.ID == level + 1);
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+}

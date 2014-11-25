@@ -1,0 +1,10 @@
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\bin\Debug\Forward.IsoMaker.exe.config
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\bin\Debug\Forward.IsoMaker.exe
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\bin\Debug\Forward.IsoMaker.pdb
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\Forward.IsoMaker.Form1.resources
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\Forward.IsoMaker.Properties.Resources.resources
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\Forward.IsoMaker.exe
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\Forward.IsoMaker.pdb
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\Emulateur\Forward\trunk\Forward.IsoMaker\obj\x86\Debug\GenerateResource.write.1.tlog

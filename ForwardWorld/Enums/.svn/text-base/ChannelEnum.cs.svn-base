@@ -1,0 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Enums
+{
+    public static class ChannelEnum
+    {
+        public const string Default = "*";
+        public const string Trade = ":";
+        public const string Recruitment = "?";
+        public const string Admin = "@";
+        public const string Osef = "??";
+    }
+}

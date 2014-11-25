@@ -1,0 +1,6 @@
+E:\Emulateur\Forward\trunk\Forward.Security\bin\Debug\Forward.Security.exe.config
+E:\Emulateur\Forward\trunk\Forward.Security\bin\Debug\Forward.Security.exe
+E:\Emulateur\Forward\trunk\Forward.Security\bin\Debug\Forward.Security.pdb
+E:\Emulateur\Forward\trunk\Forward.Security\obj\x86\Debug\Forward.Security.exe
+E:\Emulateur\Forward\trunk\Forward.Security\obj\x86\Debug\Forward.Security.pdb
+E:\Emulateur\Forward\trunk\Forward.Security\obj\x86\Debug\ResolveAssemblyReference.cache

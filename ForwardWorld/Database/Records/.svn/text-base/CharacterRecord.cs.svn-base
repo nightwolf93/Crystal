@@ -1,0 +1,353 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Castle.ActiveRecord;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Database.Records
+{
+    [ActiveRecord("Characters")]
+    public class CharacterRecord : ActiveRecordBase<CharacterRecord>
+    {
+        public CharacterRecord()
+        {
+            Stats = new Engines.StatsEngine(this);
+            Items = new Engines.ItemEngine(this);
+            Pattern = new Patterns.CharacterPattern(this);
+            Spells = new Engines.SpellBook(this);
+        }
+
+        public void SetPlayer(World.Network.WorldClient client)
+        {
+            Player = client;
+        }
+
+        #region Database Fields
+
+        [PrimaryKey(PrimaryKeyType.Increment, "ID")]
+        public int ID
+        {
+            get;
+            set;
+        }
+
+        [Property("Owner")]
+        public int Owner
+        {
+            get;
+            set;
+        }
+
+        [Property("Nickname")]
+        public string Nickname
+        {
+            get;
+            set;
+        }
+
+        [Property("Level")]
+        public int Level
+        {
+            get;
+            set;
+        }
+
+        [Property("Experience")]
+        public long Experience
+        {
+            get;
+            set;
+        }
+
+        [Property("Look")]
+        public int Look
+        {
+            get;
+            set;
+        }
+
+        [Property("Scal")]
+        public int Scal
+        {
+            get;
+            set;
+        }
+
+        [Property("Gender")]
+        public int Gender
+        {
+            get;
+            set;
+        }
+
+        [Property("Breed")]
+        public int Breed
+        {
+            get;
+            set;
+        }
+
+        [Property("Color1")]
+        public int Color1
+        {
+            get;
+            set;
+        }
+
+        [Property("Color2")]
+        public int Color2
+        {
+            get;
+            set;
+        }
+
+        [Property("Color3")]
+        public int Color3
+        {
+            get;
+            set;
+        }
+
+        [Property("MapID")]
+        public int MapID
+        {
+            get;
+            set;
+        }
+
+        [Property("CellID")]
+        public int CellID
+        {
+            get;
+            set;
+        }
+
+        [Property("Direction")]
+        public int Direction
+        {
+            get;
+            set;
+        }
+
+        [Property("Kamas")]
+        public int Kamas
+        {
+            get;
+            set;
+        }
+
+        [Property("CurrentLife")]
+        public int CurrentLife
+        {
+            get;
+            set;
+        }
+
+        [Property("Life")]
+        public int Life
+        {
+            get
+            {
+                return Stats.Life.Base;
+            }
+            set
+            {
+                Stats.Life.Base = value;
+            }
+        }
+
+        [Property("Wisdom")]
+        public int Wisdom
+        {
+            get
+            {
+                return Stats.Wisdom.Base;
+            }
+            set
+            {
+                Stats.Wisdom.Base = value;
+            }
+        }
+
+        [Property("Strenght")]
+        public int Strenght
+        {
+            get
+            {
+                return Stats.Strenght.Base;
+            }
+            set
+            {
+                Stats.Strenght.Base = value;
+            }
+        }
+
+        [Property("Fire")]
+        public int Fire
+        {
+            get
+            {
+                return Stats.Fire.Base;
+            }
+            set
+            {
+                Stats.Fire.Base = value;
+            }
+        }
+
+        [Property("Agility")]
+        public int Agility
+        {
+            get
+            {
+                return Stats.Agility.Base;
+            }
+            set
+            {
+                Stats.Agility.Base = value;
+            }
+        }
+
+        [Property("Water")]
+        public int Water
+        {
+            get
+            {
+                return Stats.Water.Base;
+            }
+            set
+            {
+                Stats.Water.Base = value;
+            }
+        }
+
+        [Property("CaractPoint")]
+        public int CaractPoint
+        {
+            get;
+            set;
+        }
+
+        [Property("SpellPoint")]
+        public int SpellPoint
+        {
+            get;
+            set;
+        }
+
+        [Property("SaveMap")]
+        public int SaveMap
+        {
+            get;
+            set;
+        }
+
+        [Property("SaveCell")]
+        public int SaveCell
+        {
+            get;
+            set;
+        }
+
+        [Property("OwnZaaps")]
+        public string OwnZaaps
+        {
+            get
+            {
+                return string.Join(",", Zaaps);
+            }
+            set
+            {
+                if (value == "")
+                    return;
+                string[] zaapsData = value.Split(',');
+                zaapsData.ToList().ForEach(x => Zaaps.Add(int.Parse(x)));
+            }
+        }
+
+        [Property("OwnSpells")]
+        public string OwnSpells
+        {
+            get
+            {
+                return string.Join(";", Spells.Spells);
+            }
+            set
+            {
+                if (value != null && value != "")
+                {
+                    value.Split(';').ToList().ForEach(x => Spells.AddSpell(x));
+                }          
+            }
+        }
+
+        #endregion
+
+        #region Fields
+
+        public MapRecords Map
+        {
+            get
+            {
+                if (Cache.MapCache.Cache.FindAll(x => x.ID == MapID).Count > 0)
+                {
+                    return Cache.MapCache.Cache.First(x => x.ID == MapID);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public ExpFloorRecord ExpFloor
+        {
+            get
+            {
+                return World.Helper.ExpFloorHelper.GetCharactersFloor(this.Experience);
+            }
+        }
+
+        public Patterns.CharacterPattern Pattern
+        {
+            get;
+            set;
+        }
+
+        public Engines.StatsEngine Stats
+        {
+            get;
+            set;
+        }
+        public Engines.ItemEngine Items
+        {
+            get;
+            set;
+        }
+        public Engines.PartyEngine Party
+        {
+            get;
+            set;
+        }
+        public Engines.SpellBook Spells
+        {
+            get;
+            set;
+        }
+
+        public World.Network.WorldClient Player
+        {
+            get;
+            set;
+        }
+
+        public int NextMove = 0;
+        public List<int> Zaaps = new List<int>();
+
+        #endregion
+
+    }
+}

@@ -1,0 +1,6 @@
+C:\Users\NightWolf\Desktop\Developpement\Forward\Realm\Crystal - RealmServer.exe.config
+C:\Users\NightWolf\Desktop\Developpement\Forward\Realm\Crystal - RealmServer.exe
+C:\Users\NightWolf\Desktop\Developpement\Forward\Realm\Crystal - RealmServer.pdb
+E:\Emulateur\Forward\trunk\Forward\obj\x86\Debug\Crystal - RealmServer.exe
+E:\Emulateur\Forward\trunk\Forward\obj\x86\Debug\Crystal - RealmServer.pdb
+E:\Emulateur\Forward\trunk\Forward\obj\x86\Debug\Crystal.RealmServer.csprojResolveAssemblyReference.cache

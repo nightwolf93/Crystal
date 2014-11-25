@@ -1,0 +1,191 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Network
+{
+    public class WorldPlayer
+    {
+        private WorldClient _client;
+
+        public bool Away = false;
+
+        public int ExchangeNpcID = -1;
+        public int InvitedPartyPlayer = -1;
+
+        public string LastMessage = "";
+
+        public Dictionary<string, bool> SelectedChannels = new Dictionary<string, bool>();
+
+        public WorldPlayer(WorldClient client)
+        {
+            _client = client;
+            SelectedChannels.Add(Enums.ChannelEnum.Default, true);
+            SelectedChannels.Add(Enums.ChannelEnum.Recruitment, true);
+            SelectedChannels.Add(Enums.ChannelEnum.Trade, true);
+        }
+
+        #region Message
+
+        public void SystemMessage(string message)
+        {
+            _client.Send("cs<font color=\"" + Utilities.ConfigurationManager.GetStringValue("SystemMessageColor") +"\">" + message + "</font>");
+        }
+
+        public void BasicMessage(string message, string color)
+        {
+            _client.Send("cs<font color=\"" + color + "\">" + message + "</font>");
+        }
+
+        #endregion
+
+        #region Character
+
+        public void Regen(int count, bool full = false)
+        {
+            if (full)
+            {
+                int restoredPoints = _client.Character.Stats.MaxLife - _client.Character.CurrentLife;
+                _client.Character.CurrentLife = _client.Character.Stats.MaxLife;
+                _client.SendImPacket("01", restoredPoints.ToString());
+            }
+            else
+            {
+                if (_client.Character.CurrentLife + count > _client.Character.Stats.MaxLife)
+                {
+                    count = _client.Character.Stats.MaxLife - _client.Character.CurrentLife;
+                    _client.Character.CurrentLife = _client.Character.Stats.MaxLife;
+                }
+                else
+                {
+                    _client.Character.CurrentLife += count;
+                }
+                _client.SendImPacket("01", count.ToString());
+            }
+            _client.Character.Stats.RefreshStats();
+        }
+
+        public void RemoveKamas(int amount)
+        {
+            _client.Character.Kamas -= amount;
+            _client.SendImPacket("046", amount.ToString());
+            _client.Character.Stats.RefreshStats();
+        }
+
+        public void AddKamas(int amount)
+        {
+            _client.Character.Kamas += amount;
+            _client.SendImPacket("045", amount.ToString());
+            _client.Character.Stats.RefreshStats();
+        }
+
+        public void SaveContents()
+        {
+            foreach (Database.Records.WorldItemRecord item in _client.Character.Items.Items)
+            {
+                try
+                {
+                    item.SaveAndFlush();
+                }
+                catch (Exception e)
+                {
+                    Logger.LogError("Error with the item : " + e.ToString());
+                }           
+            }
+            _client.AccountData.SaveAndFlush();
+        }
+
+        public void SaveCharacter()
+        {
+            if (_client.Character != null)
+            {
+                _client.Character.UpdateAndFlush();
+            }
+        }
+
+        public bool IsOverPod
+        {
+            get
+            {
+                return GetCurrentPods > GetMaxPods;
+            }
+        }
+
+        public int GetMaxPods
+        {
+            get          
+            {
+                return 1000 + Math.Abs((_client.Character.Stats.Strenght.Total / 10));
+            }
+        }
+
+        public int GetCurrentPods
+        {
+            get
+            {
+                int totalPods = 0;
+                _client.Character.Items.Items.ForEach(x => totalPods += (x.GetTemplate.Weight * x.Quantity));
+                return totalPods;
+            }
+        }
+
+        public void TryLevelUp()
+        {
+            if (Helper.ExpFloorHelper.GetCharactersFloor(this._client.Character.Experience).ID == this._client.Character.Level) return;
+
+            Database.Records.ExpFloorRecord floor = Helper.ExpFloorHelper.GetCharactersFloor(this._client.Character.Experience);
+            this._client.Character.CaractPoint += (floor.ID - this._client.Character.Level) * 5;
+            this._client.Character.SpellPoint += (floor.ID - this._client.Character.Level);
+            this._client.Character.Level = floor.ID;
+            this._client.Send("AN" + this._client.Character.Level);
+            this._client.Character.Stats.RefreshStats();
+        }
+
+        #endregion
+
+        #region Refresh
+
+        public void RefreshPods()
+        {
+            _client.Send("Ow" + GetCurrentPods + "|" + GetMaxPods);
+        }
+
+        public void RefreshCharacter()
+        {
+            if (_client.Character.Map != null)
+            {
+                _client.Character.Map.Engine.Send("Oa" + _client.Character.ID + "|" + _client.Character.Items.DisplayItem());
+            }
+        }
+
+        #endregion
+
+        #region State
+
+        public bool IsOccuped
+        {
+            get
+            {
+                if (_client.State == WorldClientState.OnDialog || _client.State == WorldClientState.OnMove
+                    || _client.State == WorldClientState.OnRequestZaap || _client.State == WorldClientState.OnExchangePnj
+                    || InvitedPartyPlayer != -1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+        
+    }
+}

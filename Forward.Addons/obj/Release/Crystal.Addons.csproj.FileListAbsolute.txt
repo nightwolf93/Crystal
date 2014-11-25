@@ -1,0 +1,8 @@
+E:\Emulateur\Forward\trunk\Forward.Addons\bin\Release\Crystal.Addons.dll
+E:\Emulateur\Forward\trunk\Forward.Addons\bin\Release\Crystal.Addons.pdb
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Release\Crystal.Addons.dll
+E:\Emulateur\Forward\trunk\Forward.Addons\obj\Release\Crystal.Addons.pdb
+G:\Emulateur\Forward\trunk\Forward.Addons\bin\Release\Crystal.Addons.dll
+G:\Emulateur\Forward\trunk\Forward.Addons\bin\Release\Crystal.Addons.pdb
+G:\Emulateur\Forward\trunk\Forward.Addons\obj\Release\Crystal.Addons.dll
+G:\Emulateur\Forward\trunk\Forward.Addons\obj\Release\Crystal.Addons.pdb

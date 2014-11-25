@@ -1,0 +1,28 @@
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\App.config
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\Crystal - WorldServer.exe.config
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\Crystal - WorldServer.exe
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\Crystal - WorldServer.pdb
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Game\Crystal - WorldServer.exe.config
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Game\App.config
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Game\Crystal - WorldServer.exe
+C:\Users\Nicolas\Desktop\Developpement\Crystal\Game\Crystal - WorldServer.pdb
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.csprojResolveAssemblyReference.cache
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.ControlerForm.resources
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.csproj.GenerateResource.Cache
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.csprojFakesResolveAssemblyReference.cache
+F:\Developpement\Crystal\Game\App.config
+F:\Developpement\Crystal\Game\Crystal - WorldServer.exe.config
+F:\Developpement\Crystal\Game\Crystal - WorldServer.exe
+F:\Developpement\Crystal\Game\Crystal - WorldServer.pdb
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal - WorldServer.exe
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal - WorldServer.pdb
+G:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.ControlerForm.resources
+G:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.csproj.GenerateResource.Cache
+G:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal - WorldServer.exe
+G:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal - WorldServer.pdb
+E:\Developpement\Crystal\Game\App.config
+E:\Developpement\Crystal\Game\Crystal - WorldServer.exe.config
+E:\Developpement\Crystal\Game\Crystal - WorldServer.exe
+E:\Developpement\Crystal\Game\Crystal - WorldServer.pdb
+G:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Release\Crystal.WorldServer.Forms.PlayersListForm.resources

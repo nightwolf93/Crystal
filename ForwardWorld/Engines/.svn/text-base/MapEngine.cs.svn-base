@@ -1,0 +1,149 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using ForwardWorld.Engines.Path;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Engines
+{
+    public class MapEngine
+    {
+        private Database.Records.MapRecords _map;
+        private bool _cellsInit = false;
+        private int _currentTempId = -1;
+
+        public Dictionary<int, Cell> Cells = new Dictionary<int,Cell>();
+
+        /* Complementary Engines */
+        public Map.SpawnerEngine Spawner;
+        public Map.PlayersMapEngine Players;
+
+        /* Pendding Npcs */
+        public List<Database.Records.NpcPositionRecord> Npcs = new List<Database.Records.NpcPositionRecord>();
+
+        public MapEngine(Database.Records.MapRecords map)
+        {
+            _map = map;
+            Spawner = new Map.SpawnerEngine();
+            Players = new Map.PlayersMapEngine(this);
+        }
+
+        public void ShowMap(World.Network.WorldClient client)
+        {
+            if (_map.DecryptKey != "")
+            {
+                client.Send(new StringBuilder("GDM|").Append(_map.ID)
+                    .Append("|").Append(_map.CreateTime).Append("|").Append(_map.DecryptKey).ToString());
+            }
+            else
+            {
+                client.Send(new StringBuilder("GDM|").Append(_map.ID)
+                              .Append("|").Append(_map.CreateTime).ToString());
+            }
+        }
+
+        public void ShowNpcsOnMap(World.Network.WorldClient client)
+        {
+            string globalPattern = "GM";
+            Npcs.ForEach(x => globalPattern += x.Patterns.DisplayOnMap);
+            client.Send(globalPattern);
+        }
+
+        public void AddPlayer(World.Network.WorldClient client)
+        {
+            UncompressMap(this._map.MapData);
+            Players.ShowPlayer(client);
+            Players.CharactersOnMap.Add(client);
+        }
+
+        public void AddNpc(Database.Records.NpcPositionRecord npc)
+        {
+            npc.TempID = _currentTempId;
+            _currentTempId--;
+            Npcs.Add(npc);
+        }
+
+        public void RemovePlayer(World.Network.WorldClient client)
+        {
+            Players.HidePlayer(client);
+            Players.CharactersOnMap.Remove(client);
+        }
+
+        public void Send(string packet)
+        {
+            Players.CharactersOnMap.ForEach(x => x.Send(packet));
+        }
+
+        public bool CharacterIsOnMap(string character)
+        {
+            if (Players.CharactersOnMap.FindAll(x => x.Character.Nickname == character).Count > 0) return true;
+            return false;
+        }
+
+        public Database.Records.NpcPositionRecord GetNpc(int tempID)
+        {
+            return Npcs.First(x => x.TempID == tempID);
+        }
+
+        public Database.Records.ZaapRecord Zaap
+        {
+            get
+            {
+                return World.Helper.ZaapHelper.GetZaap(this._map.ID);
+            }
+        }
+
+        #region Decompressor
+
+        private static string ZKARRAY = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+
+        public static int IndexArray(string a)
+        {
+            return ZKARRAY.IndexOf(a);
+        }
+
+        public Cell UncompressCell(string sData, int id)
+        {
+            Cell loc5 = new Cell(id, this._map);
+            string loc6 = sData;
+            int loc7 = loc6.Length - 1;
+            int[] loc8 = new int[8000];
+            while (loc7 >= 0)
+            {
+                loc8[loc7] = IndexArray(loc6[loc7].ToString());
+                loc7--;
+            }
+            loc5.Available = ((loc8[2] & 56) >> 3);
+            //loc5.layerObject2Num = ((loc8[0] & 2) << 12) + ((loc8[7] & 1) << 12) + (loc8[8] << 6) + loc8[9];
+            //loc5.layerObject2Interactive = ((loc8[7] & 2) >> 1);
+            //loc5.layerObject1Num = ((loc8[0] & 4) << 11) + ((loc8[4] & 1) << 12) + (loc8[5] << 6) + loc8[6];
+            return loc5;
+        }
+
+        public void UncompressMap(string data)
+        {
+            if (_cellsInit)
+                return;
+            Dictionary<int, Cell> cells = new Dictionary<int, Cell>();
+            int loc11 = data.Length;
+            int loc13 = 0;
+            int loc14 = 0;
+            while (loc14 < loc11)
+            {
+                Cell loc12 = UncompressCell(data.Substring(loc14, 10), loc13);
+                cells.Add(loc13, loc12);
+                loc14 += 10;
+                loc13 += 1;
+            }
+            this.Cells = cells;
+            this._cellsInit = true;
+        }
+
+        #endregion
+
+    }
+}

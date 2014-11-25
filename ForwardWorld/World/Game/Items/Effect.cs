@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Crystal.WorldServer.World.Handlers.Items
+{
+    public class Effect
+    {
+        public int ID
+        {
+            get;
+            set;
+        }
+
+        public Des Des = new Des();
+
+        public override string ToString()
+        {
+            string firstValue = Des.Min <= 0 ? "" : Des.Min.ToString("x");
+            string secondValue = Des.Max <= 0 ? "" : Des.Max.ToString("x");
+            if (firstValue == "" && secondValue == "")
+            {
+                firstValue = Des.Fix.ToString();
+                secondValue = Des.Fix.ToString();
+            }
+            StringBuilder _effect = new StringBuilder();
+            _effect.Append(ID.ToString("x"));
+            _effect.Append("#");
+            _effect.Append(firstValue);
+            _effect.Append("#");
+            _effect.Append(secondValue);
+            _effect.Append("#0#");
+            _effect.Append(Des.ToString());
+            return _effect.ToString();
+        }
+    }
+}

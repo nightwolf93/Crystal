@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Database.Cache
+{
+    public static class WorldItemCache
+    {
+        public static List<Records.WorldItemRecord> Cache = new List<Records.WorldItemRecord>();
+
+        public static void Init()
+        {
+            Cache = Records.WorldItemRecord.FindAll().ToList();
+            foreach (Records.WorldItemRecord i in Cache)
+            {
+                try
+                {
+                    i.Engine.Load(i.Effects);
+                    CharacterCache.Cache.FirstOrDefault(x => x.ID == i.Owner).Items.AddItem(i, i.Position == -1 ? true : false, i.Quantity);
+                    if (i.Position != -1)
+                    {
+                        i.Engine.Effects.ForEach(x => CharacterCache.Cache.FirstOrDefault(y => y.ID == i.Owner).Stats.ApplyEffect(x));
+                    }
+                }
+                catch (Exception e) { Logger.LogError("Loading items error : " +e.ToString()); }
+            }
+        }
+    }
+}

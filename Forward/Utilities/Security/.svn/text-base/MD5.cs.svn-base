@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Forward.Utilities.Security
+{
+    public static class MD5
+    {
+        private static char[] HASH = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+                't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+                'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'};
+
+        public static string Crypt(string toCrypt, string key)
+        {
+
+            string _Crypted = "";
+
+            for (int i = 0; i < toCrypt.Length; i++)
+            {
+                char PPass = toCrypt[i];
+                char PKey = key[i];
+
+                int APass = (int)PPass / 16;
+
+                int AKey = (int)PPass % 16;
+
+                int ANB = (APass + (int)PKey) % HASH.Length;
+                int ANB2 = (AKey + (int)PKey) % HASH.Length;
+
+                _Crypted += HASH[ANB];
+                _Crypted += HASH[ANB2];
+
+            }
+            return _Crypted;
+        }
+    }
+}

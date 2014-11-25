@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+using ForwardWorld.AbstractClass;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Network
+{
+    public partial class WorldServer : AbstractServer
+    {
+        public List<WorldClient> Clients = new List<WorldClient>();
+
+        public WorldServer(string adress, int port)
+            : base(adress, port)
+        {
+            Start();
+        }
+
+        public override void ServerStarted()
+        {
+            Logger.LogInfo("WorldServer wait connection !");
+        }
+
+        public override void ServerFailed(Exception ex)
+        {
+            Logger.LogError("WorldServer not running : " + ex.ToString());
+        }
+
+        public override void ServerAcceptClient(SilverSock.SilverSocket socket)
+        {
+            Logger.LogInfo("New input connection from realm !");
+            Clients.Add(new WorldClient(socket));
+        }
+    }
+}

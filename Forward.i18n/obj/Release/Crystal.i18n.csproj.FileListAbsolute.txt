@@ -1,0 +1,9 @@
+E:\Emulateur\Forward\trunk\Forward.i18n\bin\Release\Crystal.i18n.dll
+E:\Emulateur\Forward\trunk\Forward.i18n\bin\Release\Crystal.i18n.pdb
+E:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Crystal.i18n.dll
+E:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Crystal.i18n.pdb
+G:\Emulateur\Forward\trunk\Forward.i18n\bin\Release\Crystal.i18n.dll
+G:\Emulateur\Forward\trunk\Forward.i18n\bin\Release\Crystal.i18n.pdb
+G:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Crystal.i18n.csprojResolveAssemblyReference.cache
+G:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Crystal.i18n.dll
+G:\Emulateur\Forward\trunk\Forward.i18n\obj\Release\Crystal.i18n.pdb

@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SilverSock.1.0.0.0.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:SilverSock.Fakes.ShimSilverEvents">
+            <summary>Type shim de SilverSock.SilverEvents</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverEvents.#ctor">
+            <summary>Initialise une nouvelle instance de shim</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverEvents.#ctor(SilverSock.SilverEvents)">
+            <summary>Initialise un nouveau shim pour l&apos;instance donnée</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverEvents.BehaveAsCurrent">
+            <summary>Attribue le comportement &apos;Current&apos; à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverEvents.BehaveAsNotImplemented">
+            <summary>Attribue le comportement &apos;NotImplemented&apos; à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverEvents.Behavior">
+            <summary>Attribue le comportement à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverEvents.Constructor">
+            <summary>Définit le shim de SilverEvents.SilverEvents()</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.ShimSilverEvents.AllInstances">
+            <summary>Définir des shims pour tous les membres des instances</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.ShimSilverServer">
+            <summary>Type shim de SilverSock.SilverServer</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverServer.#ctor">
+            <summary>Initialise une nouvelle instance de shim</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverServer.#ctor(SilverSock.SilverServer)">
+            <summary>Initialise un nouveau shim pour l&apos;instance donnée</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverServer.BehaveAsCurrent">
+            <summary>Attribue le comportement &apos;Current&apos; à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverServer.BehaveAsNotImplemented">
+            <summary>Attribue le comportement &apos;NotImplemented&apos; à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AcceptCallBackIAsyncResult">
+            <summary>Définit le shim de SilverServer.AcceptCallBack(IAsyncResult ar)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AcceptThread">
+            <summary>Définit le shim de SilverServer.AcceptThread()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.Behavior">
+            <summary>Attribue le comportement à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.Close">
+            <summary>Définit le shim de SilverServer.Close()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.ConstructorStringInt32Int32">
+            <summary>Définit le shim de SilverServer.SilverServer(String listeningAdress, Int32 port, Int32 bufferSize)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.NotifyAcceptSocketSilverSocket">
+            <summary>Définit le shim de SilverServer.NotifyAcceptSocket(SilverSocket socket)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.NotifyListening">
+            <summary>Définit le shim de SilverServer.NotifyListening()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.NotifyListeningFailedException">
+            <summary>Définit le shim de SilverServer.NotifyListeningFailed(Exception ex)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.OnAcceptSocketEventAddSilverEventsAcceptSocket">
+            <summary>Définit le shim de SilverServer.add_OnAcceptSocketEvent(AcceptSocket value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.OnAcceptSocketEventRemoveSilverEventsAcceptSocket">
+            <summary>Définit le shim de SilverServer.remove_OnAcceptSocketEvent(AcceptSocket value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.OnListeningEventAddSilverEventsListening">
+            <summary>Définit le shim de SilverServer.add_OnListeningEvent(Listening value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.OnListeningEventRemoveSilverEventsListening">
+            <summary>Définit le shim de SilverServer.remove_OnListeningEvent(Listening value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.OnListeningFailedEventAddSilverEventsListeningFailed">
+            <summary>Définit le shim de SilverServer.add_OnListeningFailedEvent(ListeningFailed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.OnListeningFailedEventRemoveSilverEventsListeningFailed">
+            <summary>Définit le shim de SilverServer.remove_OnListeningFailedEvent(ListeningFailed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.WaitConnection">
+            <summary>Définit le shim de SilverServer.WaitConnection()</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.ShimSilverServer.AllInstances">
+            <summary>Définir des shims pour tous les membres des instances</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.AcceptCallBackIAsyncResult">
+            <summary>Définit le shim de SilverServer.AcceptCallBack(IAsyncResult ar)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.AcceptThread">
+            <summary>Définit le shim de SilverServer.AcceptThread()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.Close">
+            <summary>Définit le shim de SilverServer.Close()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.NotifyAcceptSocketSilverSocket">
+            <summary>Définit le shim de SilverServer.NotifyAcceptSocket(SilverSocket socket)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.NotifyListening">
+            <summary>Définit le shim de SilverServer.NotifyListening()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.NotifyListeningFailedException">
+            <summary>Définit le shim de SilverServer.NotifyListeningFailed(Exception ex)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.OnAcceptSocketEventAddSilverEventsAcceptSocket">
+            <summary>Définit le shim de SilverServer.add_OnAcceptSocketEvent(AcceptSocket value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.OnAcceptSocketEventRemoveSilverEventsAcceptSocket">
+            <summary>Définit le shim de SilverServer.remove_OnAcceptSocketEvent(AcceptSocket value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.OnListeningEventAddSilverEventsListening">
+            <summary>Définit le shim de SilverServer.add_OnListeningEvent(Listening value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.OnListeningEventRemoveSilverEventsListening">
+            <summary>Définit le shim de SilverServer.remove_OnListeningEvent(Listening value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.OnListeningFailedEventAddSilverEventsListeningFailed">
+            <summary>Définit le shim de SilverServer.add_OnListeningFailedEvent(ListeningFailed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.OnListeningFailedEventRemoveSilverEventsListeningFailed">
+            <summary>Définit le shim de SilverServer.remove_OnListeningFailedEvent(ListeningFailed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverServer.AllInstances.WaitConnection">
+            <summary>Définit le shim de SilverServer.WaitConnection()</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.ShimSilverSocket">
+            <summary>Type shim de SilverSock.SilverSocket</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverSocket.#ctor">
+            <summary>Initialise une nouvelle instance de shim</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverSocket.#ctor(SilverSock.SilverSocket)">
+            <summary>Initialise un nouveau shim pour l&apos;instance donnée</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverSocket.BehaveAsCurrent">
+            <summary>Attribue le comportement &apos;Current&apos; à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.ShimSilverSocket.BehaveAsNotImplemented">
+            <summary>Attribue le comportement &apos;NotImplemented&apos; à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.Behavior">
+            <summary>Attribue le comportement à toutes les méthodes du type ayant fait l&apos;objet d&apos;un shim</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.CloseSocket">
+            <summary>Définit le shim de SilverSocket.CloseSocket()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.ConnectCallBackIAsyncResult">
+            <summary>Définit le shim de SilverSocket.ConnectCallBack(IAsyncResult ar)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.ConnectToStringInt32">
+            <summary>Définit le shim de SilverSocket.ConnectTo(String adress, Int32 port)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.Constructor">
+            <summary>Définit le shim de SilverSocket.SilverSocket()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.ConstructorSocketInt32">
+            <summary>Définit le shim de SilverSocket.SilverSocket(Socket connection, Int32 bufferSize)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.IPGet">
+            <summary>Définit le shim de SilverSocket.get_IP()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.NotifyConnected">
+            <summary>Définit le shim de SilverSocket.NotifyConnected()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.NotifyDataArrivalByteArray">
+            <summary>Définit le shim de SilverSocket.NotifyDataArrival(Byte[] data)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.NotifyFailedToConnectException">
+            <summary>Définit le shim de SilverSocket.NotifyFailedToConnect(Exception ex)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.NotifySocketClosed">
+            <summary>Définit le shim de SilverSocket.NotifySocketClosed()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnConnectedAddSilverEventsConnected">
+            <summary>Définit le shim de SilverSocket.add_OnConnected(Connected value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnConnectedRemoveSilverEventsConnected">
+            <summary>Définit le shim de SilverSocket.remove_OnConnected(Connected value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnDataArrivalEventAddSilverEventsDataArrival">
+            <summary>Définit le shim de SilverSocket.add_OnDataArrivalEvent(DataArrival value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnDataArrivalEventRemoveSilverEventsDataArrival">
+            <summary>Définit le shim de SilverSocket.remove_OnDataArrivalEvent(DataArrival value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnFailedToConnectAddSilverEventsFailedToConnect">
+            <summary>Définit le shim de SilverSocket.add_OnFailedToConnect(FailedToConnect value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnFailedToConnectRemoveSilverEventsFailedToConnect">
+            <summary>Définit le shim de SilverSocket.remove_OnFailedToConnect(FailedToConnect value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnSocketClosedEventAddSilverEventsSocketClosed">
+            <summary>Définit le shim de SilverSocket.add_OnSocketClosedEvent(SocketClosed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.OnSocketClosedEventRemoveSilverEventsSocketClosed">
+            <summary>Définit le shim de SilverSocket.remove_OnSocketClosedEvent(SocketClosed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.ReceiveCallBackIAsyncResult">
+            <summary>Définit le shim de SilverSocket.ReceiveCallBack(IAsyncResult ar)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.SendByteArray">
+            <summary>Définit le shim de SilverSocket.Send(Byte[] data)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.StreamGet">
+            <summary>Définit le shim de SilverSocket.get_Stream()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.StreamSetNetworkStream">
+            <summary>Définit le shim de SilverSocket.set_Stream(NetworkStream value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.ThreadReceived">
+            <summary>Définit le shim de SilverSocket.ThreadReceived()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket._bufferSizeGet">
+            <summary>Définit le shim de SilverSocket.get__bufferSize()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket._bufferSizeSetInt32">
+            <summary>Définit le shim de SilverSocket.set__bufferSize(Int32 value)</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.ShimSilverSocket.AllInstances">
+            <summary>Définir des shims pour tous les membres des instances</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.CloseSocket">
+            <summary>Définit le shim de SilverSocket.CloseSocket()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.ConnectCallBackIAsyncResult">
+            <summary>Définit le shim de SilverSocket.ConnectCallBack(IAsyncResult ar)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.ConnectToStringInt32">
+            <summary>Définit le shim de SilverSocket.ConnectTo(String adress, Int32 port)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.IPGet">
+            <summary>Définit le shim de SilverSocket.get_IP()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.NotifyConnected">
+            <summary>Définit le shim de SilverSocket.NotifyConnected()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.NotifyDataArrivalByteArray">
+            <summary>Définit le shim de SilverSocket.NotifyDataArrival(Byte[] data)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.NotifyFailedToConnectException">
+            <summary>Définit le shim de SilverSocket.NotifyFailedToConnect(Exception ex)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.NotifySocketClosed">
+            <summary>Définit le shim de SilverSocket.NotifySocketClosed()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnConnectedAddSilverEventsConnected">
+            <summary>Définit le shim de SilverSocket.add_OnConnected(Connected value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnConnectedRemoveSilverEventsConnected">
+            <summary>Définit le shim de SilverSocket.remove_OnConnected(Connected value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnDataArrivalEventAddSilverEventsDataArrival">
+            <summary>Définit le shim de SilverSocket.add_OnDataArrivalEvent(DataArrival value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnDataArrivalEventRemoveSilverEventsDataArrival">
+            <summary>Définit le shim de SilverSocket.remove_OnDataArrivalEvent(DataArrival value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnFailedToConnectAddSilverEventsFailedToConnect">
+            <summary>Définit le shim de SilverSocket.add_OnFailedToConnect(FailedToConnect value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnFailedToConnectRemoveSilverEventsFailedToConnect">
+            <summary>Définit le shim de SilverSocket.remove_OnFailedToConnect(FailedToConnect value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnSocketClosedEventAddSilverEventsSocketClosed">
+            <summary>Définit le shim de SilverSocket.add_OnSocketClosedEvent(SocketClosed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.OnSocketClosedEventRemoveSilverEventsSocketClosed">
+            <summary>Définit le shim de SilverSocket.remove_OnSocketClosedEvent(SocketClosed value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.ReceiveCallBackIAsyncResult">
+            <summary>Définit le shim de SilverSocket.ReceiveCallBack(IAsyncResult ar)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.SendByteArray">
+            <summary>Définit le shim de SilverSocket.Send(Byte[] data)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.StreamGet">
+            <summary>Définit le shim de SilverSocket.get_Stream()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.StreamSetNetworkStream">
+            <summary>Définit le shim de SilverSocket.set_Stream(NetworkStream value)</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances.ThreadReceived">
+            <summary>Définit le shim de SilverSocket.ThreadReceived()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances._bufferSizeGet">
+            <summary>Définit le shim de SilverSocket.get__bufferSize()</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.ShimSilverSocket.AllInstances._bufferSizeSetInt32">
+            <summary>Définit le shim de SilverSocket.set__bufferSize(Int32 value)</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.StubSilverEvents">
+            <summary>Type stub de SilverSock.SilverEvents</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverEvents.#ctor">
+            <summary>Initialise une nouvelle instance</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverEvents.InitializeStub">
+            <summary>Initialise une nouvelle instance de type StubSilverEvents</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverEvents.CallBase">
+            <summary>Obtient ou définit une valeur qui indique si la méthode de base doit être appelée à la place du comportement de secours</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverEvents.InstanceBehavior">
+            <summary>Obtient ou définit le comportement de l&apos;instance.</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverEvents.InstanceObserver">
+            <summary>Obtient ou définit l&apos;observateur d&apos;instance.</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.StubSilverServer">
+            <summary>Type stub de SilverSock.SilverServer</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverServer.#ctor(System.String,System.Int32,System.Int32)">
+            <summary>Initialise une nouvelle instance</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverServer.InitializeStub">
+            <summary>Initialise une nouvelle instance de type StubSilverServer</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverServer.CallBase">
+            <summary>Obtient ou définit une valeur qui indique si la méthode de base doit être appelée à la place du comportement de secours</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverServer.InstanceBehavior">
+            <summary>Obtient ou définit le comportement de l&apos;instance.</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverServer.InstanceObserver">
+            <summary>Obtient ou définit l&apos;observateur d&apos;instance.</summary>
+        </member>
+        <member name="T:SilverSock.Fakes.StubSilverSocket">
+            <summary>Type stub de SilverSock.SilverSocket</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverSocket.#ctor">
+            <summary>Initialise une nouvelle instance</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverSocket.#ctor(System.Net.Sockets.Socket,System.Int32)">
+            <summary>Initialise une nouvelle instance</summary>
+        </member>
+        <member name="M:SilverSock.Fakes.StubSilverSocket.InitializeStub">
+            <summary>Initialise une nouvelle instance de type StubSilverSocket</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverSocket.CallBase">
+            <summary>Obtient ou définit une valeur qui indique si la méthode de base doit être appelée à la place du comportement de secours</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverSocket.InstanceBehavior">
+            <summary>Obtient ou définit le comportement de l&apos;instance.</summary>
+        </member>
+        <member name="P:SilverSock.Fakes.StubSilverSocket.InstanceObserver">
+            <summary>Obtient ou définit l&apos;observateur d&apos;instance.</summary>
+        </member>
+    </members>
+</doc>

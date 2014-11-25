@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Utilities
+{
+    public class Basic
+    {
+        public static Random _random = new Random(Environment.TickCount);
+
+        public static int Rand(int min, int max)
+        {
+            return _random.Next(min, max);
+        }
+    }
+}

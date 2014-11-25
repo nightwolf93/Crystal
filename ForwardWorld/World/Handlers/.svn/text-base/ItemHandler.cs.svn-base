@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers
+{
+    public static class ItemHandler
+    {
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("Od", typeof(ItemHandler).GetMethod("DeleteItem"));
+            Network.Dispatcher.RegisteredMethods.Add("OM", typeof(ItemHandler).GetMethod("MoveItem"));
+            Network.Dispatcher.RegisteredMethods.Add("OU", typeof(ItemHandler).GetMethod("UseItem"));
+        }
+
+        public static void DeleteItem(World.Network.WorldClient client, string packet)
+        {
+            try
+            {
+                string[] data = packet.Substring(2).Split('|');
+                Database.Records.WorldItemRecord item = client.Character.Items.GetItem(int.Parse(data[0]));
+                item.Delete();
+                client.Character.Items.RemoveItem(item, int.Parse(data[1]));
+                client.Action.RefreshCharacter();
+            }
+            catch (Exception e) { }     
+        }
+
+        public static void MoveItem(World.Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(2).Split('|');
+            int id = int.Parse(data[0]);
+            int pos = int.Parse(data[1]);
+            Database.Records.WorldItemRecord item = client.Character.Items.GetItem(id);
+            if (pos == -1)
+            {
+                item.Engine.Effects.ForEach(x => client.Character.Stats.ApplyEffect(x, true));
+            }
+            else
+            {
+                if (item.GetTemplate.Level > client.Character.Level)
+                {
+                    client.Send("OAEL");
+                    return;
+                }
+                item.Engine.Effects.ForEach(x => client.Character.Stats.ApplyEffect(x));
+
+            }
+            if (pos == -1)
+            {
+               if (client.Character.Items.HaveItem(item.Template) && client.Character.Items.HaveItemWithSameEffects(item.Effects, item.ID))
+               {
+                    Database.Records.WorldItemRecord existingItem = client.Character.Items.GetItemWithSameEffects(item.Effects, item.Template, item.ID);
+                    client.Character.Items.RemoveItem(item, item.Quantity);
+                    existingItem.Quantity += 1;
+                    client.Character.Items.RefreshQuantity(existingItem);
+               }
+                else
+                {
+                    item.Position = pos;
+                    client.Send("OM" + item.ID + "|" + item.Position);
+                }
+            }
+            else
+            {
+                if (item.Quantity > 1)
+                {
+                     Database.Records.WorldItemRecord newItem = client.Character.Items.DuplicateItem(item, pos);
+                    item.Quantity -= 1;
+                    client.Character.Items.RefreshQuantity(item);
+                    newItem.Position = pos;
+                    client.Send("OM" + newItem.ID + "|" + newItem.Position);
+                }
+                else
+                {
+                    item.Position = pos;
+                    client.Send("OM" + item.ID + "|" + item.Position);
+                }
+            }
+            if (client.Character.CurrentLife > client.Character.Stats.MaxLife)
+                client.Character.CurrentLife = client.Character.Stats.MaxLife;
+            client.Action.RefreshCharacter();
+            client.Character.Stats.RefreshStats();
+            client.Action.RefreshPods();
+        }
+
+        public static void UseItem(World.Network.WorldClient client, string packet)
+        {
+            int id = int.Parse(packet.Substring(2).Split('|')[0]);
+            Database.Records.WorldItemRecord item = client.Character.Items.GetItem(id);
+            Interop.Scripting.ScriptManager.CallScript("use_item", item.Template, client, item);
+        }
+    }
+}

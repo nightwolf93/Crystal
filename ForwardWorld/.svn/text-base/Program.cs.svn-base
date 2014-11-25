@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+
+//@Author NightWolf
+//This is a file from Project ForwardWorld
+
+namespace ForwardWorld
+{
+    public class Program
+    {
+
+        public const string ForwardVersion = "0.0.0.1";
+
+        public static void Main(string[] args)
+        {
+            try
+            {
+                Utilities.ConfigurationManager.LoadConfiguration();
+                Console.Title = "Forward World " + Utilities.ConfigurationManager.GetStringValue("ServerName")
+                                            + " (" + Utilities.ConfigurationManager.GetStringValue("ServerID") + ")";
+
+                Logger.LogInfo("Connect to the database ...");
+                Database.Manager.DatabaseManager.StartDatabase();
+                Logger.LogInfo("Connected to the database");
+
+                if (Utilities.ConfigurationManager.GetBoolValue("CreateShema"))
+                {
+                    Logger.LogInfo("Creating shema ...");
+                    Database.Manager.DatabaseManager.InitTable();
+                    Logger.LogInfo("Shema created !");
+                }
+
+                Logger.LogInfo("Register methods ...");
+                World.Handlers.AccountHandler.RegisterMethod();
+                World.Handlers.GameHandler.RegisterMethod();
+                World.Handlers.BasicHandler.RegisterMethod();
+                World.Handlers.ItemHandler.RegisterMethod();
+                World.Handlers.NpcHandler.RegisterMethod();
+                World.Handlers.ZaapHandler.RegisterMethod();
+                World.Handlers.FriendHandler.RegisterMethod();
+                World.Handlers.EnemiesHandler.RegisterMethod();
+                World.Handlers.DialogHandler.RegisterMethod();
+                World.Handlers.ExchangeHandler.RegisterMethod();
+                World.Handlers.PartyHandler.RegisterMethod();
+                World.Handlers.SpellHandler.RegisterMethod();
+                Logger.LogInfo("Methods registered !");
+
+                Logger.LogInfo("Create cache ...");
+                Database.Cache.AccountDataCache.Init();
+                Logger.LogInfo("Accounts loaded !");
+                Database.Cache.OriginalBreedStartMapCache.Init();
+                Logger.LogInfo("Original start maps loaded !");
+                Database.Cache.IncarnamTeleporterCache.Init();
+                Logger.LogInfo("Incarnam teleporters loaded !");
+                Database.Cache.MapCache.Init();
+                Logger.LogInfo("Maps loaded !");
+                if (Utilities.ConfigurationManager.GetBoolValue("FastLoading"))
+                {
+                    System.Threading.Thread triggerThread = new System.Threading.Thread(new System.Threading.ThreadStart(Database.Cache.TriggerCache.Init));
+                    triggerThread.Start();
+                }
+                else
+                {
+                    Database.Cache.TriggerCache.Init();
+                    Logger.LogInfo("Trigger loaded !");
+                }
+                Database.Cache.ExpFloorCache.Init();
+                Logger.LogInfo("Exp floors loaded !");
+                Database.Cache.BaseSpellCache.Init();
+                Logger.LogInfo("Base spells loaded !");
+                Database.Cache.CharacterCache.Init();
+                Logger.LogInfo("Characters loaded !");
+                Database.Cache.ItemCache.Init();
+                Logger.LogInfo("Items loaded !");
+                Database.Cache.WorldItemCache.Init();
+                Logger.LogInfo("WorldItems loaded !");
+                Database.Cache.NpcCache.Init();
+                Logger.LogInfo("Npcs loaded !");
+                Database.Cache.NpcPositionCache.Init();
+                Logger.LogInfo("Npcs positions loaded !");
+                Database.Cache.NpcDialogCache.Init();
+                Logger.LogInfo("Npcs dialogs loaded !");
+                Database.Cache.ZaapCache.Init();
+                Logger.LogInfo("Zaaps loaded !");
+                Logger.LogInfo("Cache created !");
+
+                Interop.Scripting.ScriptManager.Load("Scripts");
+                Logger.LogInfo("Scripts loaded !");
+
+                World.Manager.WorldManager.InitServer();
+                Communication.Realm.Communicator.InitServer();
+
+                World.Network.World.InitAutoSave(Utilities.ConfigurationManager.GetIntValue("SaveIntervall"));
+                Logger.LogInfo("AutoSave started !");
+
+                while (true)
+                {
+                    Console.ReadLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("Error : " + ex.ToString());
+                Console.ReadLine();
+            }
+        }
+    }
+}

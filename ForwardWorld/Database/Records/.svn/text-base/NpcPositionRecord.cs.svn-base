@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Castle.ActiveRecord;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Database.Records
+{
+    [ActiveRecord("npc_pos")]
+    public class NpcPositionRecord : ActiveRecordBase<NpcPositionRecord>
+    {
+
+        public NpcPositionRecord()
+        {
+            this.Patterns = new Patterns.NpcPattern(this);
+        }
+
+        #region Db Fields
+
+        [PrimaryKey("Id")]
+        public int ID
+        {
+            get;
+            set;
+        }
+
+        [Property("MapId")]
+        public int MapId
+        {
+            get;
+            set;
+        }
+
+        [Property("CaseId")]
+        public int CellId
+        {
+            get;
+            set;
+        }
+
+        [Property("Orientation")]
+        public int Orientation
+        {
+            get;
+            set;
+        }
+
+        #endregion
+
+        #region Methods and Fields
+
+        public int TempID = -1;
+
+        public Patterns.NpcPattern Patterns = null;
+
+        public NpcRecord Template
+        {
+            get
+            {
+                return World.Helper.NpcHelper.GetTemplate(this.ID);
+            }
+        }
+
+        #endregion
+
+
+    }
+}

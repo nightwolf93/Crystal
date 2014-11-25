@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Zivsoft.Log;
+
+using Forward.AbstractClass;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Forward.Authentification.Network
+{
+    public partial class AuthentificationServer : AbstractServer
+    {
+        public List<AuthentificationClient> Clients = new List<AuthentificationClient>();
+
+        public AuthentificationServer(string adress, int port)
+            : base(adress, port)
+        {
+            Start();
+        }
+
+        public override void ServerStarted()
+        {
+            Logger.LogInfo("AuthentificationServer wait connection");
+        }
+
+        public override void ServerFailed(Exception ex)
+        {
+            Logger.LogError("AuthentificationServer has failed to open : " + ex.ToString());
+        }
+
+        public override void ServerAcceptClient(SilverSock.SilverSocket socket)
+        {
+            Logger.LogInfo("New input connection !");
+            Clients.Add(new AuthentificationClient(socket));
+        }
+    }
+}

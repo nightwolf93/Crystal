@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Handlers
+{
+    public static class DialogHandler
+    {
+
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("DR", typeof(DialogHandler).GetMethod("Respond"));
+        }
+
+        public static void Respond(World.Network.WorldClient client, string packet)
+        {
+            string[] data = packet.Substring(2).Split('|');
+            NpcHandler.ExitDialog(client);
+            Interop.Scripting.ScriptManager.CallScript("npc_response", data[1], client);         
+        }
+    }
+}

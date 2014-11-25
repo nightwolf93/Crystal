@@ -1,0 +1,98 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Zivsoft.Log;
+using ForwardWorld.AbstractClass;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.World.Network
+{
+    public class WorldClient : AbstractClient
+    {
+
+        #region Fields
+
+        private Dispatcher Handler;
+
+        public Database.Records.AccountRecord Account;
+        public Database.Records.AccountDataRecord AccountData;
+        public Database.Records.CharacterRecord Character;
+        public WorldClientState State = WorldClientState.Authentificate;
+        public WorldPlayer Action;
+
+        #endregion
+
+        public WorldClient(SilverSock.SilverSocket socket)
+            : base(socket)
+        {
+            //Set Handler and Player !!
+            Handler = new Dispatcher(this);
+            Action = new WorldPlayer(this);
+
+            //Send HelloGame
+            Send("HG");
+        }
+
+        #region Overrides Methods
+
+        public override void Disconnected()
+        {
+            try
+            {       
+                if (Character != null)
+                {
+                    Action.SaveCharacter();
+                    Action.SaveContents();
+                    Character.Player = null;         
+                    Character.Map.Engine.RemovePlayer(this);
+                }
+
+                Manager.WorldManager.Server.Clients.Remove(this);
+
+                Communication.Realm.Communicator.Server.MainRealm.SendMessage
+                    (new Communication.Realm.Packet.PlayerDisconnectedMessage(Account.Username));
+
+                Logger.LogInfo("Client disconnected !");
+            }
+            catch (Exception e)
+            {
+                Logger.LogError("Failed to disconnecte player : " + e.ToString());
+            }
+        }
+
+        public override void DataArrival(byte[] data)
+        {
+            try
+            {
+                string noParsedPacket = Encoding.ASCII.GetString(data);
+                foreach (string packet in noParsedPacket.Replace("\x0a", "").Split('\x00'))
+                {
+                    if (packet == "")
+                        continue;
+                    Logger.LogDebug("Received << " + packet);
+                    Handler.Dispatch(packet);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.ToString());
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        public void SendImPacket(string header, string param = "")
+        {
+            Send("Im" + header + ";" + param);
+        }
+
+        #endregion
+
+    }
+}

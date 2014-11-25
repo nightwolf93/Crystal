@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using ForwardWorld.Engines.Stats;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Engines
+{
+    public class StatsEngine
+    {
+        private Database.Records.CharacterRecord _character;
+
+        public SingleStats Life = new SingleStats();
+        public SingleStats Wisdom = new SingleStats();
+        public SingleStats Strenght = new SingleStats();
+        public SingleStats Water = new SingleStats();
+        public SingleStats Agility = new SingleStats();
+        public SingleStats Fire = new SingleStats();
+
+        public SingleStats ActionPoints = new SingleStats();
+        public SingleStats MovementPoints = new SingleStats();
+
+        public StatsEngine(Database.Records.CharacterRecord character)
+        {
+            _character = character;
+        }
+
+        public int MaxLife
+        {
+            get
+            {
+                return 46 + (5 * _character.Level) + Life.Total;
+            }
+        }
+
+        public void RefreshStats()
+        {
+            _character.Player.Send("As" + _character.Pattern.CharacterStats);
+        }
+
+        public SingleStats GetStats(int id)
+        {
+            switch ((Enums.StatsTypeEnum)id)
+            {
+                case Enums.StatsTypeEnum.Life:
+                    return Life;
+
+                case Enums.StatsTypeEnum.Wisdom:
+                    return Wisdom;
+
+                case Enums.StatsTypeEnum.Strenght:
+                    return Strenght;
+
+                case Enums.StatsTypeEnum.Fire:
+                    return Fire;
+
+                case Enums.StatsTypeEnum.Water:
+                    return Water;
+
+                case Enums.StatsTypeEnum.Agility:
+                    return Agility;
+            }
+            return null;
+        }
+
+        public void ApplyEffect(World.Handlers.Items.Effect effect, bool remove = false)
+        {
+            int value = effect.Des.Fix;
+            if (remove)
+            {
+                value = -value;
+            }
+            switch ((Enums.ItemEffectEnum)effect.ID)
+            {
+                case Enums.ItemEffectEnum.Strenght:
+                    Strenght.Items += value;
+                    break;
+
+                case Enums.ItemEffectEnum.Wisdom:
+                    Wisdom.Items += value;
+                    break;
+
+                case Enums.ItemEffectEnum.Life:
+                    Life.Items += value;
+                    break;
+
+                case Enums.ItemEffectEnum.Fire:
+                    Fire.Items += value;
+                    break;
+
+                case Enums.ItemEffectEnum.Agility:
+                    Agility.Items += value;
+                    break;
+
+                case Enums.ItemEffectEnum.Water:
+                    Water.Items += value;
+                    break;
+            }
+        }
+    }
+}

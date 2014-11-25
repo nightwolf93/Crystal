@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace ForwardWorld.Database.Cache
+{
+    public static class ItemCache
+    {
+        public static List<Records.ItemRecord> Cache = new List<Records.ItemRecord>();
+
+        public static void Init()
+        {
+            Cache = Records.ItemRecord.FindAll().ToList();
+            Cache.ForEach(x => x.Engine.Load(x.Statistiques));
+        }
+    }
+}

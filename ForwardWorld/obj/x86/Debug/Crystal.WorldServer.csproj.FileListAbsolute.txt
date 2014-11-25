@@ -1,0 +1,7 @@
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\App.config
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\Crystal - WorldServer.exe.config
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\Crystal - WorldServer.exe
+C:\Users\NightWolf\Desktop\Developpement\Forward\Game\Crystal - WorldServer.pdb
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Debug\Crystal - WorldServer.exe
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Debug\Crystal - WorldServer.pdb
+E:\Emulateur\Forward\trunk\ForwardWorld\obj\x86\Debug\Crystal.WorldServer.csprojResolveAssemblyReference.cache

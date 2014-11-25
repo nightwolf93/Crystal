@@ -1,0 +1,135 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+//@Author NightWolf
+//This is a file from Project $safeprojectname$
+
+namespace Crystal.WorldServer.World.Handlers
+{
+    public static class PartyHandler
+    {
+        public static void RegisterMethod()
+        {
+            Network.Dispatcher.RegisteredMethods.Add("PI", typeof(PartyHandler).GetMethod("InviteParty"));
+            Network.Dispatcher.RegisteredMethods.Add("PA", typeof(PartyHandler).GetMethod("AcceptInvitation"));
+            Network.Dispatcher.RegisteredMethods.Add("PR", typeof(PartyHandler).GetMethod("RefuseInvitation"));
+            Network.Dispatcher.RegisteredMethods.Add("PV", typeof(PartyHandler).GetMethod("ExitParty"));
+        }
+
+        public static void InviteParty(Network.WorldClient client, string packet)
+        {
+            string requestedName = packet.Substring(2);
+            Network.WorldClient invitedClient = Helper.WorldHelper.GetClientByCharacter(requestedName);
+            if (invitedClient != null)
+            {
+                if (invitedClient.Action.InvitedPartyPlayer == 0 || invitedClient.Action.InvitedPartyPlayer == -1)
+                {
+                    if (!invitedClient.Action.IsOccuped)
+                    {
+                        if (client.Character.Party != null)
+                        {
+                            if (client.Character.Party.Members.Count > 8)
+                            {
+                                client.Send("PIEf" + requestedName);
+                                return;
+                            }
+                        }
+                        if (invitedClient.Character.Party != null)
+                        {
+                            client.Send("PIEa" + requestedName);
+                            return;
+                        }
+                        client.Action.InvitedPartyPlayer = invitedClient.Character.ID;
+                        invitedClient.Action.InvitedPartyPlayer = client.Character.ID;
+                        client.Send("PIK" + client.Character.Nickname + "|" + invitedClient.Character.Nickname);
+                        invitedClient.Send("PIK" + client.Character.Nickname + "|" + invitedClient.Character.Nickname);
+                    }
+                    else
+                    {
+                        client.Send("PIEa" + requestedName);
+                    }
+                }
+            }
+            else
+            {
+                client.Send("PIEn" + requestedName);
+            }
+        }
+
+        public static void AcceptInvitation(Network.WorldClient client, string packet)
+        {
+            if (client.Action.InvitedPartyPlayer != -1)
+            {
+                Network.WorldClient invitedClient = Helper.WorldHelper.GetClientByCharacter(client.Action.InvitedPartyPlayer);
+                if (invitedClient != null)
+                {
+                    if (invitedClient.Character.Party != null)
+                    {
+                        invitedClient.Character.Party.AddMember(client);
+                        client.Character.Party = invitedClient.Character.Party;
+                    }
+                    else
+                    {
+                        new Engines.PartyEngine(invitedClient, client);
+                    }
+                    invitedClient.Send("PR");
+                    invitedClient.Action.InvitedPartyPlayer = -1;
+                }
+                else
+                {
+                    client.Send("PIEn");
+                }
+
+                /* Reset state */
+                client.Action.InvitedPartyPlayer = -1;
+            }
+            else
+            {
+                client.Action.SystemMessage("Vous n'avez pas d'invitation en cours !");
+            }
+        }
+
+        public static void RefuseInvitation(Network.WorldClient client, string packet)
+        {
+            if (client.Action.InvitedPartyPlayer != -1)
+            {
+                Network.WorldClient invitedClient = Helper.WorldHelper.GetClientByCharacter(client.Action.InvitedPartyPlayer);
+                if (invitedClient != null)
+                {
+                    invitedClient.Send("PR");
+                    invitedClient.Action.InvitedPartyPlayer = -1;
+                }
+                /* Reset state */
+                client.Action.InvitedPartyPlayer = -1;
+            }
+            else
+            {
+                client.Action.SystemMessage("Vous n'avez pas d'invitation en cours !");
+            }
+        }
+
+        public static void ExitParty(Network.WorldClient client, string packet)
+        {
+            if (client.Character.Party != null)
+            {
+                int id = client.Character.ID;
+                if (packet.Length == 3)
+                {
+                    id = int.Parse(packet.Substring(2));
+                }
+                
+                if (client.Character.Party.Leader.Character.ID == client.Character.ID || client.Character.ID == id)
+                {
+                    client.Character.Party.RemoveMember(client);
+                    client.Send("PV" + client.Character.ID);
+                }            
+            }
+            else
+            {
+                client.Send("BN");
+            }
+        }
+    }
+}
